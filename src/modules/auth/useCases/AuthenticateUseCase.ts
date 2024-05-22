@@ -1,8 +1,8 @@
 import { IHasher } from '../../../libs/Hasher/IHasher';
 import { IJwt } from '../../../libs/Jwt/IJwt';
-import { IAuthenticateUserRequestDTO } from '../dtos/AuthenticateUserRequestDTO';
-import { CompanyNotActive } from '../errors/CompanyNotActive';
-import { InvalidCredentials } from '../errors/InvalidCredentials';
+import { IAuthenticateUserDTO } from '../dtos/AuthenticateUserDTO';
+import { CompanyNotActiveError } from '../errors/CompanyNotActive';
+import { InvalidCredentialsError } from '../errors/InvalidCredentials';
 import { UsersRepository } from '../repositories/UsersRepository';
 
 export class AuthenticateUserUseCase {
@@ -12,11 +12,11 @@ export class AuthenticateUserUseCase {
     private readonly jwt: IJwt
   ) {}
 
-  async execute({ email, password }: IAuthenticateUserRequestDTO) {
+  async execute({ email, password }: IAuthenticateUserDTO) {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new InvalidCredentials();
+      throw new InvalidCredentialsError();
     }
 
     const isValidPassword = await this.hasher.compare(
@@ -25,11 +25,11 @@ export class AuthenticateUserUseCase {
     );
 
     if (!isValidPassword) {
-      throw new InvalidCredentials();
+      throw new InvalidCredentialsError();
     }
 
     if (!user.company.active) {
-      throw new CompanyNotActive();
+      throw new CompanyNotActiveError();
     }
 
     const token = await this.jwt.encrypt({ id: user.id });

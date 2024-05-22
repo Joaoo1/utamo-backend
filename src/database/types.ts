@@ -3,22 +3,31 @@ import { ColumnType } from 'kysely';
 export interface Database {
   companies: CompanyTable;
   users: UsersTable;
+  drainageProjects: DrainageProjectsTable;
 }
 
-export interface CompanyTable {
+interface BaseTable {
   id: string;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date | null, never, Date>;
+}
+
+interface CompanyTable extends BaseTable {
   name: string;
   active: boolean;
-  createdAt: ColumnType<Date, string | undefined, never>;
-  updatedAt: ColumnType<Date, string, Date>;
 }
 
-export interface UsersTable {
-  id: string;
+interface UsersTable extends BaseTable {
   name: string;
   email: string;
   passwordHash: string;
   companyId: string;
-  createdAt: ColumnType<Date, string | undefined, never>;
-  updatedAt: ColumnType<Date, string, Date>;
+}
+
+interface DrainageProjectsTable extends BaseTable {
+  name: string;
+  defaultRainIntensity: number;
+  defaultConcentrationTime: number;
+  createdBy: string;
+  companyId: string;
 }

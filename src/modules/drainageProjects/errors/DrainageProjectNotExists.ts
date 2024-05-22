@@ -1,8 +1,8 @@
 import { AppError } from '../../../common/AppError';
 import { HttpStatusCode } from '../../../common/HttpStatusCode';
 
-export class InvalidCredentialsError extends AppError {
+export class DrainageProjectNotExistsError extends AppError {
   constructor() {
-    super('Credenciais inválidas', HttpStatusCode.UNAUTHORIZED);
+    super('Projeto não encontrado', HttpStatusCode.UNAUTHORIZED);
   }
 }
