@@ -1,11 +1,9 @@
 import { Router } from 'express';
 import { db } from '../database';
+import { authRouter } from '../modules/auth/router';
 
 const router = Router();
 
-router.get('/', async (_req, res) => {
-  const result = await db.selectFrom('companies').selectAll().execute();
-  return res.json({ result });
-});
+router.use(authRouter);
 
 export { router };
