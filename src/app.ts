@@ -1,9 +1,7 @@
 import 'dotenv/config';
-
 import Express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-
 import 'express-async-errors';
 
 import { router } from './routes';

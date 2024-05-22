@@ -3,6 +3,7 @@ export interface JwtPayload {
 }
 
 export interface IJwt {
-  decrypt: (cipherText: string) => Promise<JwtPayload>;
-  encrypt: (payload: JwtPayload) => Promise<string>;
+  decrypt: (cipherText: string) => JwtPayload;
+  encrypt: (payload: JwtPayload) => string;
+  validate: (token: string) => boolean;
 }

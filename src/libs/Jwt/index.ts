@@ -5,11 +5,15 @@ import { IJwt, JwtPayload } from './IJwt';
 export class Jwt implements IJwt {
   constructor(private readonly secret: string) {}
 
-  async encrypt(payload: JwtPayload): Promise<string> {
+  encrypt(payload: JwtPayload): string {
     return jwt.sign(payload, this.secret, { expiresIn: '7d' });
   }
 
-  async decrypt(cipherText: string): Promise<JwtPayload> {
+  decrypt(cipherText: string): JwtPayload {
     return jwt.verify(cipherText, this.secret) as any;
+  }
+
+  validate(token: string): boolean {
+    return !!jwt.decode(token);
   }
 }
