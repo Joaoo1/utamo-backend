@@ -1,0 +1,9 @@
+- Fazer login com email e senha
+- Criar projetos de drenagem
+- Excluir projetos de drenagem
+- (Verificar) Exportar projetos de drenagem em arquivo JSON
+- Importar dados de drenagem e bacias para projetos de drenagem
+- CRUD sarjetas de projeto de drenagem
+- Alterar valor padrão de intensidade pluviométrica
+- Alterar valor padrão de tempo de concentração
+- CRUD cálculo de drenagem
