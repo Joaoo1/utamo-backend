@@ -1,7 +1,11 @@
 import { Router } from 'express';
+import { db } from '../database';
 
 const router = Router();
 
-router.get('/', (_req, res) => res.send('Hello World!'));
+router.get('/', async (_req, res) => {
+  const result = await db.selectFrom('companies').selectAll().execute();
+  return res.json({ result });
+});
 
 export { router };
