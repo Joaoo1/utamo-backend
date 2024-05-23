@@ -23,8 +23,12 @@ export class DrainageProjectsRepository {
     return drainageProject ?? null;
   }
 
-  async list() {
-    return db.selectFrom('drainageProjects').selectAll().execute();
+  async listByCompanyId(companyId: string) {
+    return db
+      .selectFrom('drainageProjects')
+      .where('companyId', '=', companyId)
+      .selectAll()
+      .execute();
   }
 
   async create(data: InsertExpression<Database, 'drainageProjects'>) {
