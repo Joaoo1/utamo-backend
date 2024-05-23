@@ -1,4 +1,4 @@
-import { UpdateDrainageProjectDTO } from '../dtos/UpdateDrainageProjectDTO';
+import { UpdateDrainageProjectDTO } from '../dtos/IUpdateDrainageProjectDTO';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
 import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectName';
@@ -29,6 +29,7 @@ export class UpdateDrainageProjectUseCase {
     if (name && name !== project.name) {
       const alreadyExists = await this.drainageProjectRepository.findByName(
         name,
+        userCompanyId,
         id
       );
 

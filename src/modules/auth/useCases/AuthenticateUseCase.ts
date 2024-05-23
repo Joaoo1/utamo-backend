@@ -1,6 +1,6 @@
 import { IHasher } from '../../../libs/Hasher/IHasher';
 import { IJwt } from '../../../libs/Jwt/IJwt';
-import { IAuthenticateUserDTO } from '../dtos/AuthenticateUserDTO';
+import { IAuthenticateUserDTO } from '../dtos/IAuthenticateUserDTO';
 import { CompanyNotActiveError } from '../errors/CompanyNotActive';
 import { InvalidCredentialsError } from '../errors/InvalidCredentials';
 import { UsersRepository } from '../repositories/UsersRepository';

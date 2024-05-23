@@ -1,5 +1,5 @@
 import { IUUID } from '../../../libs/UUID/IUUID';
-import { ICreateDrainageProjectDTO } from '../dtos/CreateDrainageProjectDTO';
+import { ICreateDrainageProjectDTO } from '../dtos/ICreateDrainageProjectDTO';
 import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectName';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
 
@@ -16,7 +16,10 @@ export class CreateDrainageProjectUseCase {
     defaultRainIntensity,
     name,
   }: ICreateDrainageProjectDTO) {
-    const alreadyExists = await this.drainageProjectRepository.findByName(name);
+    const alreadyExists = await this.drainageProjectRepository.findByName(
+      name,
+      companyId
+    );
 
     if (alreadyExists) {
       throw new DuplicatedDrainageProjectNameError();

@@ -1,7 +1,7 @@
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
-import { IDeleteDrainageProjectDTO } from '../dtos/DeleteDrainageProjectDTO';
+import { IDeleteDrainageProjectDTO } from '../dtos/IDeleteDrainageProjectDTO';
 
 export class DeleteDrainageProjectUseCase {
   constructor(

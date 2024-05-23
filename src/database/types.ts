@@ -4,6 +4,7 @@ export interface Database {
   companies: CompanyTable;
   users: UsersTable;
   drainageProjects: DrainageProjectsTable;
+  gutters: GuttersTable;
 }
 
 interface BaseTable {
@@ -29,5 +30,23 @@ export interface DrainageProjectsTable extends BaseTable {
   defaultRainIntensity: number;
   defaultConcentrationTime: number;
   createdBy: ColumnType<string, string, never>;
-  companyId: string;
+  companyId: ColumnType<string, string, never>;
+}
+
+export enum GutterType {
+  Triangular = 'triangular',
+  Trapezoidal = 'trapezoidal',
+  Rectangular = 'rectangular',
+  Semicircular = 'semicircular',
+}
+
+export interface GuttersTable extends BaseTable {
+  name: string;
+  base: number;
+  slope: number;
+  maxHeight: number;
+  roughness: number;
+  maxSpeed: number;
+  type: GutterType;
+  drainageProjectId: ColumnType<string, string, never>;
 }

@@ -1,8 +1,6 @@
-import { InsertExpression } from 'kysely/dist/cjs/parser/insert-values-parser';
-
-import { Insertable, UpdateType, Updateable } from 'kysely';
+import { Insertable, Updateable } from 'kysely';
 import { db } from '../../../database';
-import { Database, DrainageProjectsTable } from '../../../database/types';
+import { DrainageProjectsTable } from '../../../database/types';
 
 export class DrainageProjectsRepository {
   async findById(id: string) {
@@ -15,8 +13,11 @@ export class DrainageProjectsRepository {
     return drainageProject ?? null;
   }
 
-  async findByName(name: string, idToIgnore?: string) {
-    const query = db.selectFrom('drainageProjects').where('name', '=', name);
+  async findByName(name: string, companyId: string, idToIgnore?: string) {
+    const query = db
+      .selectFrom('drainageProjects')
+      .where('name', '=', name)
+      .where('companyId', '=', companyId);
 
     if (idToIgnore) {
       query.where('id', '!=', idToIgnore);

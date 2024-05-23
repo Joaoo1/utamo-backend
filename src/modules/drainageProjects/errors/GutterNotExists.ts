@@ -1,8 +1,8 @@
 import { AppError } from '../../../common/AppError';
 import { HttpStatusCode } from '../../../common/HttpStatusCode';
 
-export class DrainageProjectNotExistsError extends AppError {
+export class GutterNotExistsError extends AppError {
   constructor() {
-    super('Projeto não encontrado', HttpStatusCode.NOT_FOUND);
+    super('Sarjeta não encontrada', HttpStatusCode.NOT_FOUND);
   }
 }
