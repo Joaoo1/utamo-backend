@@ -7,7 +7,7 @@ export interface Database {
 }
 
 interface BaseTable {
-  id: string;
+  id: ColumnType<string, string, never>;
   createdAt: ColumnType<Date, string | undefined, never>;
   updatedAt: ColumnType<Date | null, never, Date>;
 }
@@ -17,17 +17,17 @@ interface CompanyTable extends BaseTable {
   active: boolean;
 }
 
-interface UsersTable extends BaseTable {
+export interface UsersTable extends BaseTable {
   name: string;
   email: string;
   passwordHash: string;
   companyId: string;
 }
 
-interface DrainageProjectsTable extends BaseTable {
+export interface DrainageProjectsTable extends BaseTable {
   name: string;
   defaultRainIntensity: number;
   defaultConcentrationTime: number;
-  createdBy: string;
+  createdBy: ColumnType<string, string, never>;
   companyId: string;
 }

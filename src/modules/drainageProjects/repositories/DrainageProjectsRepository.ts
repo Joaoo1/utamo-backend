@@ -1,6 +1,8 @@
 import { InsertExpression } from 'kysely/dist/cjs/parser/insert-values-parser';
+
+import { Insertable, UpdateType, Updateable } from 'kysely';
 import { db } from '../../../database';
-import { Database } from '../../../database/types';
+import { Database, DrainageProjectsTable } from '../../../database/types';
 
 export class DrainageProjectsRepository {
   async findById(id: string) {
@@ -13,12 +15,14 @@ export class DrainageProjectsRepository {
     return drainageProject ?? null;
   }
 
-  async findByName(name: string) {
-    const drainageProject = await db
-      .selectFrom('drainageProjects')
-      .where('name', '=', name)
-      .selectAll()
-      .executeTakeFirst();
+  async findByName(name: string, idToIgnore?: string) {
+    const query = db.selectFrom('drainageProjects').where('name', '=', name);
+
+    if (idToIgnore) {
+      query.where('id', '!=', idToIgnore);
+    }
+
+    const drainageProject = await query.selectAll().executeTakeFirst();
 
     return drainageProject ?? null;
   }
@@ -31,8 +35,16 @@ export class DrainageProjectsRepository {
       .execute();
   }
 
-  async create(data: InsertExpression<Database, 'drainageProjects'>) {
+  async create(data: Insertable<DrainageProjectsTable>) {
     await db.insertInto('drainageProjects').values(data).execute();
+  }
+
+  async update(id: string, data: Updateable<DrainageProjectsTable>) {
+    await db
+      .updateTable('drainageProjects')
+      .set(data)
+      .where('id', '=', id)
+      .execute();
   }
 
   async delete(id: string) {
