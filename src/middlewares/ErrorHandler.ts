@@ -12,7 +12,5 @@ export const ErrorHandler = (
     return res.status(error.statusCode).send({ message: error.message });
   }
 
-  return res
-    .status(500)
-    .send({ errors: [{ message: 'Something went wrong' }] });
+  return res.status(500).send({ message: 'Something went wrong' });
 };
