@@ -5,6 +5,10 @@ export interface Database {
   users: UsersTable;
   drainageProjects: DrainageProjectsTable;
   gutters: GuttersTable;
+  drainages: DrainagesTable;
+  basins: BasinsTable;
+  lines: LinesTable;
+  drainageSections: DrainageSectionsTable;
 }
 
 interface BaseTable {
@@ -49,4 +53,34 @@ export interface GuttersTable extends BaseTable {
   maxSpeed: number;
   type: GutterType;
   drainageProjectId: ColumnType<string, string, never>;
+}
+
+export interface DrainagesTable extends BaseTable {
+  name: string;
+  length: number;
+  drainageProjectId: ColumnType<string, string, never>;
+}
+
+export interface BasinsTable extends BaseTable {
+  name: string;
+  area: number;
+  runoff: number;
+  drainageProjectId: ColumnType<string, string, never>;
+}
+
+export interface DrainageSectionsTable extends BaseTable {
+  slope: number;
+  startsAt: number;
+  endsAt: number;
+  drainageId: ColumnType<string, string, never>;
+}
+
+export interface LinesTable extends BaseTable {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  length: number;
+  basinId: ColumnType<string | undefined>;
+  drainageId: ColumnType<string | undefined>;
 }
