@@ -21,8 +21,9 @@ export class CalculationsRepository {
         'calculations.drainageProjectId'
       )
       .select([
-        'calculations.id as id',
-        'drainageProjects.companyId as companyId',
+        'calculations.id',
+        'calculations.drainageId',
+        'drainageProjects.companyId',
       ])
       .executeTakeFirst();
 

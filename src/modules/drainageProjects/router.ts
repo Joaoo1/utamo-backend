@@ -10,6 +10,7 @@ import { DeleteGutterController } from './useCases/DeleteGutterController';
 import { ImportDrainageProjectDataFromXmlController } from './useCases/ImportDrainageProjectDataFromXmlController';
 import { CreateCalculationController } from './useCases/CreateCalculationController';
 import { DeleteCalculationController } from './useCases/DeleteCalculationController';
+import { UpdateCalculationUseController } from './useCases/UpdateCalculationUseController';
 
 const drainageProjectRouter = Router();
 
@@ -23,6 +24,7 @@ const deleteGutterController = new DeleteGutterController();
 const importDrainageProjectDataFromXmlController =
   new ImportDrainageProjectDataFromXmlController();
 const createCalculationController = new CreateCalculationController();
+const updateCalculationController = new UpdateCalculationUseController();
 const deleteCalculationController = new DeleteCalculationController();
 
 drainageProjectRouter.get('/', listDrainageProjectController.handle);
@@ -48,6 +50,10 @@ drainageProjectRouter.post(
 drainageProjectRouter.post(
   '/:id/calculation',
   createCalculationController.handle
+);
+drainageProjectRouter.put(
+  '/:id/calculation/:calculationId',
+  updateCalculationController.handle
 );
 drainageProjectRouter.delete(
   '/:id/calculation/:calculationId',

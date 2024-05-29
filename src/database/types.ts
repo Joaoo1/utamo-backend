@@ -112,7 +112,7 @@ export interface CalculationsTable extends BaseTable {
   endStationDecimal: number;
   rainIntensity: number;
   concentrationTime: number;
-  gutterId: ColumnType<string, string, never>;
+  gutterId: string;
   drainageId: ColumnType<string, string, never>;
   drainageProjectId: ColumnType<string, string, never>;
 }
