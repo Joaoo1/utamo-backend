@@ -11,6 +11,28 @@ export class CalculationsRepository {
       .execute();
   }
 
+  async findById(id: string) {
+    const calculation = await db
+      .selectFrom('calculations')
+      .where('calculations.id', '=', id)
+      .innerJoin(
+        'drainageProjects',
+        'drainageProjects.id',
+        'calculations.drainageProjectId'
+      )
+      .select([
+        'calculations.id as id',
+        'drainageProjects.companyId as companyId',
+      ])
+      .executeTakeFirst();
+
+    if (!calculation) {
+      return null;
+    }
+
+    return calculation;
+  }
+
   async create(data: Insertable<CalculationsTable>) {
     await db.insertInto('calculations').values(data).execute();
   }
