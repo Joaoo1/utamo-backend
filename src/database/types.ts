@@ -9,6 +9,8 @@ export interface Database {
   basins: BasinsTable;
   lines: LinesTable;
   drainageSections: DrainageSectionsTable;
+  calculations: CalculationsTable;
+  calculationsBasins: CalculationsBasinsTable;
 }
 
 interface BaseTable {
@@ -83,4 +85,40 @@ export interface LinesTable extends BaseTable {
   length: number;
   basinId: ColumnType<string | undefined>;
   drainageId: ColumnType<string | undefined>;
+}
+
+export interface CalculationsTable extends BaseTable {
+  qMin: ColumnType<number, number | undefined, number>;
+  qMax: ColumnType<number, number | undefined, number>;
+  gap: ColumnType<number, number | undefined, number>;
+  amMax: ColumnType<number, number | undefined, number>;
+  amMin: ColumnType<number, number | undefined, number>;
+  pmMax: ColumnType<number, number | undefined, number>;
+  pmMin: ColumnType<number, number | undefined, number>;
+  rhMax: ColumnType<number, number | undefined, number>;
+  rhMin: ColumnType<number, number | undefined, number>;
+  hnMax: ColumnType<number, number | undefined, number>;
+  hnMin: ColumnType<number, number | undefined, number>;
+  velocity: ColumnType<number, number | undefined, number>;
+  projectFlow: ColumnType<number, number | undefined, number>;
+  deviceLength: ColumnType<number, number | undefined, number>;
+  minSlope: ColumnType<number, number | undefined, number>;
+  maxSlope: ColumnType<number, number | undefined, number>;
+  basinsTotalArea: number;
+  runOff: number;
+  startStationInt: number;
+  startStationDecimal: number;
+  endStationInt: ColumnType<'F' | number>;
+  endStationDecimal: number;
+  rainIntensity: number;
+  concentrationTime: number;
+  gutterId: ColumnType<string, string, never>;
+  drainageId: ColumnType<string, string, never>;
+  drainageProjectId: ColumnType<string, string, never>;
+}
+
+export interface CalculationsBasinsTable {
+  basinId: ColumnType<string, string, never>;
+  calculationId: ColumnType<string, string, never>;
+  createdAt: ColumnType<Date, string | undefined, never>;
 }

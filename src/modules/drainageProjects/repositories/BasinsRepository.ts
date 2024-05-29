@@ -3,11 +3,20 @@ import { db } from '../../../database';
 import { BasinsTable } from '../../../database/types';
 
 export class BasinsRepository {
-  async selectAllByName(names: string[], drainageProjectId: string) {
+  async findAllByName(names: string[], drainageProjectId: string) {
     return await db
       .selectFrom('basins')
       .selectAll()
       .where('name', 'in', names)
+      .where('drainageProjectId', '=', drainageProjectId)
+      .execute();
+  }
+
+  async findAllByIds(ids: string[], drainageProjectId: string) {
+    return await db
+      .selectFrom('basins')
+      .selectAll()
+      .where('id', 'in', ids)
       .where('drainageProjectId', '=', drainageProjectId)
       .execute();
   }

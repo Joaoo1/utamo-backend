@@ -3,7 +3,7 @@ import { BaseEntity } from '../../../common/BaseEntity';
 enum GutterType {
   Triangular = 'triangular',
   Trapezoidal = 'trapezoidal',
-  Retangular = 'retangular',
+  Rectangular = 'rectangular',
   Semicircular = 'semicircular',
 }
 
