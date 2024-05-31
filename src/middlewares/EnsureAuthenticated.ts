@@ -20,6 +20,15 @@ class MissingTokenError extends AppError {
   }
 }
 
+class CompanyNotActiveError extends AppError {
+  constructor() {
+    super(
+      'Empresa não autorizada para acesso',
+      HttpStatusCode.PAYMENT_REQUIRED
+    );
+  }
+}
+
 export const EnsureAuthenticated = async (
   request: Request,
   _: Response,
@@ -44,6 +53,10 @@ export const EnsureAuthenticated = async (
 
     if (!user) {
       throw new InvalidTokenError();
+    }
+
+    if (!user.company.active) {
+      throw new CompanyNotActiveError();
     }
 
     request.user = { companyId: user.companyId, id: user.id };
