@@ -4,11 +4,11 @@ import { DeleteGutterUseCase } from './DeleteGutterUseCase';
 
 class DeleteGutterController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const deleteDrainageProjectUseCase = new DeleteGutterUseCase(
+    const deleteGutterUseCase = new DeleteGutterUseCase(
       new GuttersRepository()
     );
 
-    await deleteDrainageProjectUseCase.execute({
+    await deleteGutterUseCase.execute({
       id: request.params.gutterId,
       userCompanyId: request.user.companyId,
     });
