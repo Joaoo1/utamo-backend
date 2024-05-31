@@ -8,6 +8,7 @@ export class DrainageProjectsRepository {
       .selectFrom('drainageProjects')
       .where('id', '=', id)
       .selectAll()
+      .limit(1)
       .executeTakeFirst();
 
     return drainageProject ?? null;
@@ -23,7 +24,7 @@ export class DrainageProjectsRepository {
       query.where('id', '!=', idToIgnore);
     }
 
-    const drainageProject = await query.selectAll().executeTakeFirst();
+    const drainageProject = await query.selectAll().limit(1).executeTakeFirst();
 
     return drainageProject ?? null;
   }

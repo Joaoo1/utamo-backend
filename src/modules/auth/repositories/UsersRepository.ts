@@ -18,6 +18,7 @@ export class UsersRepository {
       .where('email', '=', email)
       .innerJoin('companies', 'users.companyId', 'companies.id')
       .select(defaultSelectFields)
+      .limit(1)
       .executeTakeFirst();
 
     if (!user) return null;
@@ -43,6 +44,7 @@ export class UsersRepository {
       .where('users.id', '=', id)
       .innerJoin('companies', 'users.companyId', 'companies.id')
       .select(defaultSelectFields)
+      .limit(1)
       .executeTakeFirst();
 
     if (!user) return null;

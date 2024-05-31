@@ -34,6 +34,7 @@ export class GuttersRepository {
       .where('name', '=', name)
       .where('drainageProjectId', '=', drainageProjectId)
       .selectAll()
+      .limit(1)
       .executeTakeFirst();
 
     return gutter ?? null;
@@ -49,6 +50,7 @@ export class GuttersRepository {
       )
       .where('gutters.id', '=', id)
       .select(defaultFindSelectFields)
+      .limit(1)
       .executeTakeFirst();
 
     if (!gutter) {
