@@ -1,7 +1,7 @@
-import { Basin } from '../entities/Basin';
+import { CalculationBasin } from './interfaces';
 import { calculateBasinsTotalArea } from './calculateBasinsTotalArea';
 
-export const calculateRunoff = (basins: Basin[]) => {
+export const calculateRunoff = (basins: CalculationBasin[]) => {
   const a = basins.reduce((acc, b) => acc + b.area * b.runoff, 0);
   const b = calculateBasinsTotalArea(basins);
 

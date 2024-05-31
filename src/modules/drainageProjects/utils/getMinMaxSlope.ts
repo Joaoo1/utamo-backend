@@ -1,4 +1,4 @@
-import { MinMax, Section } from './calculate';
+import { MinMax, Section } from './interfaces';
 
 /**
  * Finds and returns the segments that contain the specified start or end point.

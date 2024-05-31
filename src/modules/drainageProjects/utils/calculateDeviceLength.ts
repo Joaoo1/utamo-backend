@@ -1,4 +1,4 @@
-import { StartEnd } from './calculate';
+import { StartEnd } from './interfaces';
 
 export const calculateDeviceLength = (startEnd: StartEnd, endsAt: number) => {
   const formattedEnd =

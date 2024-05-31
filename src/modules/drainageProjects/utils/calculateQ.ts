@@ -1,13 +1,12 @@
-import { Gutter } from '../entities/Gutter';
-import { MinMax } from './calculate';
+import { CalculationGutter, MinMax } from './interfaces';
 
-const calculatePmSMin = (hn: number, gutter: Gutter) => {
+const calculatePmSMin = (hn: number, gutter: CalculationGutter) => {
   // (n+2*hn*((1+m^2)^0,5))
   const a = Math.pow(1 + Math.pow(gutter.slope, 2), 0.5);
   return gutter.base + 2 * hn * a;
 };
 
-const calculateAmSMin = (hn: number, gutter: Gutter) => {
+const calculateAmSMin = (hn: number, gutter: CalculationGutter) => {
   // hn*(b+m*hn)
   return hn * (gutter.base + gutter.slope * hn);
 };
@@ -16,7 +15,7 @@ export const calculateQ = (
   minOrMax: 'min' | 'max',
   minMaxSlope: MinMax,
   projectFlow: number,
-  gutter: Gutter
+  gutter: CalculationGutter
 ) => {
   let hn = 0;
   const slope = minOrMax === 'min' ? minMaxSlope.min : minMaxSlope.max;

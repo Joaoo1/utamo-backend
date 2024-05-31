@@ -1,10 +1,10 @@
-import { Basin } from '../entities/Basin';
+import { CalculationBasin } from './interfaces';
 import { calculateBasinsTotalArea } from './calculateBasinsTotalArea';
 
 export const calculateProjectFlow = (
   runOff: number,
   rainIntensity: number,
-  basins: Basin[]
+  basins: CalculationBasin[]
 ) => {
   const basinsTotalArea = calculateBasinsTotalArea(basins);
 

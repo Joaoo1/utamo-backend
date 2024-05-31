@@ -1,5 +1,3 @@
-import { Basin } from '../entities/Basin';
-import { Gutter } from '../entities/Gutter';
 import { calculateBasinsTotalArea } from './calculateBasinsTotalArea';
 import { calculateDeviceLength } from './calculateDeviceLength';
 import { calculateProjectFlow } from './calculateProjectFlow';
@@ -7,32 +5,16 @@ import { calculateQ } from './calculateQ';
 import { calculateRunoff } from './calculateRunOff';
 import { getFormattedStations } from './getFormattedStations';
 import { getMinMaxSlope } from './getMinMaxSlope';
-
-export interface StartEnd {
-  start: {
-    int: number;
-    decimal: number;
-  };
-  end: {
-    int: number | 'F';
-    decimal: number;
-  };
-}
-
-export interface MinMax {
-  min: number;
-  max: number;
-}
-
-export interface Section {
-  startsAt: number;
-  endsAt: number;
-  slope: number;
-}
+import {
+  CalculationBasin,
+  CalculationGutter,
+  Section,
+  StartEnd,
+} from './interfaces';
 
 interface CalculationData {
-  gutter: Gutter;
-  basins: Basin[];
+  gutter: CalculationGutter;
+  basins: CalculationBasin[];
   startEnd: StartEnd;
   concentrationTime: number;
   rainIntensity: number;

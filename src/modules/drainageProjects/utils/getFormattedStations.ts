@@ -1,4 +1,4 @@
-import { StartEnd } from './calculate';
+import { StartEnd } from './interfaces';
 
 export const getFormattedStations = (startEnd: StartEnd, endsAt: number) => {
   const start = startEnd.start.int * 20 + startEnd.start.decimal;
