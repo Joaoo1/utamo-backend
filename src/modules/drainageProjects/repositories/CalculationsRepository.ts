@@ -153,4 +153,12 @@ export class CalculationsRepository {
       .where('id', '=', id)
       .execute();
   }
+
+  async findAllCalculationsByGutterId(gutterId: string) {
+    return db
+      .selectFrom('calculations')
+      .where('gutterId', '=', gutterId)
+      .selectAll()
+      .execute();
+  }
 }

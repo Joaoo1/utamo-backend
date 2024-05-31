@@ -2,10 +2,14 @@ import { IUpdateGutterDTO } from '../dtos/IUpdateGutterDTO';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
 import { DuplicatedGutterNameError } from '../errors/DuplicatedGutterName';
 import { GutterNotExistsError } from '../errors/GutterNotExists';
+import { CalculationsRepository } from '../repositories/CalculationsRepository';
 import { GuttersRepository } from '../repositories/GuttersRepository';
 
 export class UpdateGutterUseCase {
-  constructor(private readonly guttersRepository: GuttersRepository) {}
+  constructor(
+    private readonly guttersRepository: GuttersRepository,
+    private readonly calculationsRepository: CalculationsRepository
+  ) {}
 
   async execute({
     base,
@@ -46,5 +50,16 @@ export class UpdateGutterUseCase {
       slope,
       name,
     });
+
+    const calculations =
+      await this.calculationsRepository.findAllCalculationsByGutterId(
+        gutter.id
+      );
+
+    if (calculations.length > 0) {
+      await Promise.all(
+        calculations.map((c) => this.calculationsRepository.recalculate(c.id))
+      );
+    }
   }
 }
