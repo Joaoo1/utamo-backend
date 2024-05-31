@@ -1,7 +1,7 @@
 import { IUUID } from '../../../libs/UUID/IUUID';
 import { ICreateCalculationDTO } from '../dtos/ICreateCalculationDTO';
 import { CalculationDataError } from '../errors/CalculationDataError';
-import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
+import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
 import { BasinsRepository } from '../repositories/BasinsRepository';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';

@@ -1,6 +1,6 @@
 import { IDeleteGutterDTO } from '../dtos/IDeleteGutterDTO';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
-import { GutterNotExistsError } from '../errors/GutterNotExists';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
+import { GutterNotExistsError } from '../errors/GutterNotExistsError';
 import { GuttersRepository } from '../repositories/GuttersRepository';
 
 export class DeleteGutterUseCase {

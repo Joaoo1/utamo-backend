@@ -1,6 +1,6 @@
 import { IUUID } from '../../../libs/UUID/IUUID';
 import { ICreateDrainageProjectDTO } from '../dtos/ICreateDrainageProjectDTO';
-import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectName';
+import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectNameError';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
 
 export class CreateDrainageProjectUseCase {

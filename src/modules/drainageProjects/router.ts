@@ -12,6 +12,7 @@ import { DeleteDrainageController } from './useCases/DeleteDrainageController';
 import { CreateCalculationController } from './useCases/CreateCalculationController';
 import { DeleteCalculationController } from './useCases/DeleteCalculationController';
 import { UpdateCalculationUseController } from './useCases/UpdateCalculationUseController';
+import { UpdateDrainageController } from './useCases/UpdateDrainageController';
 
 const drainageProjectRouter = Router();
 
@@ -19,6 +20,7 @@ const listDrainageProjectController = new ListDrainageProjectsController();
 const createDrainageProjectController = new CreateDrainageProjectController();
 const updateDrainageProjectController = new UpdateDrainageProjectController();
 const deleteDrainageProjectController = new DeleteDrainageProjectController();
+const updateDrainageController = new UpdateDrainageController();
 const deleteDrainageController = new DeleteDrainageController();
 const createGutterController = new CreateGutterController();
 const updateGutterController = new UpdateGutterController();
@@ -44,6 +46,10 @@ drainageProjectRouter.delete(
   deleteGutterController.handle
 );
 
+drainageProjectRouter.put(
+  '/:id/drainages/:drainageId',
+  updateDrainageController.handle
+);
 drainageProjectRouter.delete(
   '/:id/drainages/:drainageId',
   deleteDrainageController.handle

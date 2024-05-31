@@ -1,6 +1,6 @@
 import { IDeleteCalculationDTO } from '../dtos/IDeleteCalculationDTO';
-import { CalculationNotExists } from '../errors/CalculationNotExists';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
+import { CalculationNotExists } from '../errors/CalculationNotExistsError';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 
 export class DeleteCalculationUseCase {

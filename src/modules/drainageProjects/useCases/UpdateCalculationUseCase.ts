@@ -1,8 +1,8 @@
 import { IUpdateCalculationDTO } from '../dtos/IUpdateCalculationDTO';
 import { CalculationDataError } from '../errors/CalculationDataError';
-import { CalculationNotExists } from '../errors/CalculationNotExists';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
-import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
+import { CalculationNotExists } from '../errors/CalculationNotExistsError';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
+import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
 import { BasinsRepository } from '../repositories/BasinsRepository';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';

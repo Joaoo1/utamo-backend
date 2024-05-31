@@ -1,6 +1,6 @@
 import { IDeleteGutterDTO } from '../dtos/IDeleteGutterDTO';
-import { DrainageNotExists } from '../errors/DrainageNotExists';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
+import { DrainageNotExistsError } from '../errors/DrainageNotExistsError';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainagesRepository } from '../repositories/DrainagesRepository';
 
 export class DeleteDrainageUseCase {
@@ -10,7 +10,7 @@ export class DeleteDrainageUseCase {
     const drainage = await this.drainagesRepository.findById(id);
 
     if (!drainage) {
-      throw new DrainageNotExists();
+      throw new DrainageNotExistsError();
     }
 
     if (drainage.companyId !== userCompanyId) {

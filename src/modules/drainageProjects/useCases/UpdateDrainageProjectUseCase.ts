@@ -1,7 +1,7 @@
 import { UpdateDrainageProjectDTO } from '../dtos/IUpdateDrainageProjectDTO';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
-import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
-import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectName';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
+import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
+import { DuplicatedDrainageProjectNameError } from '../errors/DuplicatedDrainageProjectNameError';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
 
 export class UpdateDrainageProjectUseCase {

@@ -1,7 +1,7 @@
 import { IUpdateGutterDTO } from '../dtos/IUpdateGutterDTO';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
-import { DuplicatedGutterNameError } from '../errors/DuplicatedGutterName';
-import { GutterNotExistsError } from '../errors/GutterNotExists';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
+import { DuplicatedGutterNameError } from '../errors/DuplicatedGutterNameError';
+import { GutterNotExistsError } from '../errors/GutterNotExistsError';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 import { GuttersRepository } from '../repositories/GuttersRepository';
 

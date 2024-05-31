@@ -149,7 +149,7 @@ export class CalculationsRepository {
 
     await db
       .updateTable('calculations')
-      .set(result)
+      .set({ ...result, updatedAt: new Date() })
       .where('id', '=', id)
       .execute();
   }
@@ -158,6 +158,14 @@ export class CalculationsRepository {
     return db
       .selectFrom('calculations')
       .where('gutterId', '=', gutterId)
+      .selectAll()
+      .execute();
+  }
+
+  async findAllCalculationsByDrainageId(drainageId: string) {
+    return db
+      .selectFrom('calculations')
+      .where('drainageId', '=', drainageId)
       .selectAll()
       .execute();
   }

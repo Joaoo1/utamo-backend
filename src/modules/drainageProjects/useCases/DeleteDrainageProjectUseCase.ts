@@ -1,5 +1,5 @@
-import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExists';
-import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompany';
+import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
 import { IDeleteDrainageProjectDTO } from '../dtos/IDeleteDrainageProjectDTO';
 
