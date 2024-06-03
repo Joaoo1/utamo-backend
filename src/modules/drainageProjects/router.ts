@@ -15,6 +15,7 @@ import { CreateCalculationController } from './useCases/CreateCalculationControl
 import { DeleteCalculationController } from './useCases/DeleteCalculationController';
 import { UpdateCalculationUseController } from './useCases/UpdateCalculationUseController';
 import { UpdateDrainageController } from './useCases/UpdateDrainageController';
+import { UpdateBasinRunoffController } from './useCases/UpdateBasinsRunoffController';
 
 const drainageProjectRouter = Router();
 
@@ -29,6 +30,7 @@ const updateGutterController = new UpdateGutterController();
 const deleteGutterController = new DeleteGutterController();
 const updateBasinController = new UpdateBasinController();
 const deleteBasinController = new DeleteBasinController();
+const updateBasinsRunoffController = new UpdateBasinRunoffController();
 const createCalculationController = new CreateCalculationController();
 const updateCalculationController = new UpdateCalculationUseController();
 const deleteCalculationController = new DeleteCalculationController();
@@ -60,6 +62,10 @@ drainageProjectRouter.delete(
 );
 
 drainageProjectRouter.put('/:id/basins/:basinId', updateBasinController.handle);
+drainageProjectRouter.patch(
+  '/:id/basins/:basinId/apply-runoff-to-all',
+  updateBasinsRunoffController.handle
+);
 drainageProjectRouter.delete(
   '/:id/basins/:basinId',
   deleteBasinController.handle

@@ -68,6 +68,17 @@ export class BasinsRepository {
     await db.updateTable('basins').set(data).where('id', '=', id).execute();
   }
 
+  async updateByDrainageProject(
+    drainageProjectId: string,
+    data: Updateable<BasinsTable>
+  ) {
+    await db
+      .updateTable('basins')
+      .set(data)
+      .where('drainageProjectId', '=', drainageProjectId)
+      .execute();
+  }
+
   async delete(id: string) {
     const result = await db.deleteFrom('basins').where('id', '=', id).execute();
 
