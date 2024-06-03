@@ -16,6 +16,7 @@ import { DeleteCalculationController } from './useCases/DeleteCalculationControl
 import { UpdateCalculationUseController } from './useCases/UpdateCalculationUseController';
 import { UpdateDrainageController } from './useCases/UpdateDrainageController';
 import { UpdateBasinRunoffController } from './useCases/UpdateBasinsRunoffController';
+import { EnsureCorrectUuid } from '../../middlewares/EnsureCorrectUuid';
 
 const drainageProjectRouter = Router();
 
@@ -45,47 +46,61 @@ drainageProjectRouter.delete('/:id', deleteDrainageProjectController.handle);
 drainageProjectRouter.post('/:id/gutters', createGutterController.handle);
 drainageProjectRouter.put(
   '/:id/gutters/:gutterId',
+  EnsureCorrectUuid,
   updateGutterController.handle
 );
 drainageProjectRouter.delete(
   '/:id/gutters/:gutterId',
+  EnsureCorrectUuid,
   deleteGutterController.handle
 );
 
 drainageProjectRouter.put(
   '/:id/drainages/:drainageId',
+  EnsureCorrectUuid,
   updateDrainageController.handle
 );
 drainageProjectRouter.delete(
   '/:id/drainages/:drainageId',
+  EnsureCorrectUuid,
   deleteDrainageController.handle
 );
 
-drainageProjectRouter.put('/:id/basins/:basinId', updateBasinController.handle);
+drainageProjectRouter.put(
+  '/:id/basins/:basinId',
+  EnsureCorrectUuid,
+  updateBasinController.handle
+);
 drainageProjectRouter.patch(
   '/:id/basins/:basinId/apply-runoff-to-all',
+  EnsureCorrectUuid,
   updateBasinsRunoffController.handle
 );
 drainageProjectRouter.delete(
   '/:id/basins/:basinId',
+  EnsureCorrectUuid,
   deleteBasinController.handle
 );
 
 drainageProjectRouter.post(
   '/:id/import-data',
+  EnsureCorrectUuid,
   importDrainageProjectDataFromXmlController.handle
 );
 
 drainageProjectRouter.post(
   '/:id/calculation',
+  EnsureCorrectUuid,
   createCalculationController.handle
 );
 drainageProjectRouter.put(
   '/:id/calculation/:calculationId',
+  EnsureCorrectUuid,
   updateCalculationController.handle
 );
 drainageProjectRouter.delete(
   '/:id/calculation/:calculationId',
+  EnsureCorrectUuid,
   deleteCalculationController.handle
 );
 

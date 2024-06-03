@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { db } from '../database';
 import { authRouter } from '../modules/auth/router';
 import { drainageProjectRouter } from '../modules/drainageProjects/router';
 import { EnsureAuthenticated } from '../middlewares/EnsureAuthenticated';
