@@ -35,7 +35,11 @@ export async function up(db: Kysely<any>): Promise<void> {
       col.references('drainages.id').notNull()
     )
     .addColumn('drainageProjectId', 'uuid', (col) =>
-      col.references('drainageProjects.id').notNull()
+      col
+        .references('drainageProjects.id')
+        .notNull()
+        .onDelete('cascade')
+        .onUpdate('cascade')
     )
     .addColumn('createdAt', 'timestamp', (col) =>
       col.defaultTo(sql`now()`).notNull()
@@ -45,11 +49,13 @@ export async function up(db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('calculationsBasins')
-    .addColumn('id', 'uuid', (col) =>
-      col.primaryKey().defaultTo(sql`gen_random_uuid()`)
-    )
+    .addColumn('id', 'uuid', (col) => col.primaryKey())
     .addColumn('calculationId', 'uuid', (col) =>
-      col.references('calculations.id').notNull()
+      col
+        .references('calculations.id')
+        .notNull()
+        .onDelete('cascade')
+        .onUpdate('cascade')
     )
     .addColumn('basinId', 'uuid', (col) =>
       col.references('basins.id').notNull()

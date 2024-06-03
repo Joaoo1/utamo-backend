@@ -17,7 +17,11 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('maxSpeed', 'numeric', (col) => col.notNull())
     .addColumn('type', sql`"GutterType"`, (col) => col.notNull())
     .addColumn('drainageProjectId', 'uuid', (col) =>
-      col.references('drainageProjects.id').notNull()
+      col
+        .references('drainageProjects.id')
+        .notNull()
+        .onDelete('cascade')
+        .onUpdate('cascade')
     )
     .addColumn('createdAt', 'timestamp', (col) =>
       col.defaultTo(sql`now()`).notNull()

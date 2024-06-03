@@ -9,8 +9,12 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('x2', 'numeric', (col) => col.notNull())
     .addColumn('y2', 'numeric', (col) => col.notNull())
     .addColumn('length', 'numeric', (col) => col.notNull())
-    .addColumn('drainageId', 'uuid', (col) => col.references('drainages.id'))
-    .addColumn('basinId', 'uuid', (col) => col.references('basins.id'))
+    .addColumn('drainageId', 'uuid', (col) =>
+      col.references('drainages.id').onUpdate('cascade').onDelete('cascade')
+    )
+    .addColumn('basinId', 'uuid', (col) =>
+      col.references('basins.id').onUpdate('cascade').onDelete('cascade')
+    )
     .addColumn('createdAt', 'timestamp', (col) =>
       col.defaultTo(sql`now()`).notNull()
     )
