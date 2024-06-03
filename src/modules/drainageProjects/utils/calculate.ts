@@ -22,15 +22,14 @@ interface CalculationData {
 }
 
 export const calculate = (calculationData: CalculationData) => {
-  const endsAt = calculationData.drainageSections.at(-1)!.endsAt;
+  const sections = [...calculationData.drainageSections].sort(
+    (a, b) => a.startsAt - b.startsAt
+  );
+  const endsAt = sections.at(-1)!.endsAt;
 
   const { start, end } = getFormattedStations(calculationData.startEnd, endsAt);
 
-  const minMaxSlope = getMinMaxSlope(
-    calculationData.drainageSections,
-    start,
-    end
-  );
+  const minMaxSlope = getMinMaxSlope(sections, start, end);
 
   const runOff = calculateRunoff(calculationData.basins);
   const projectFlow = calculateProjectFlow(
