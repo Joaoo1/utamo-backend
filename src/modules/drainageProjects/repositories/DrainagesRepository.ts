@@ -28,7 +28,7 @@ export class DrainagesRepository {
     return drainage;
   }
 
-  async findAllByName(names: string[], drainageProjectId: string) {
+  async findAllByNames(names: string[], drainageProjectId: string) {
     return await db
       .selectFrom('drainages')
       .selectAll()

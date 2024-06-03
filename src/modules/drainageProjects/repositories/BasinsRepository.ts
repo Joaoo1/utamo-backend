@@ -3,7 +3,46 @@ import { db } from '../../../database';
 import { BasinsTable } from '../../../database/types';
 
 export class BasinsRepository {
-  async findAllByName(names: string[], drainageProjectId: string) {
+  async findById(id: string) {
+    const basin = await db
+      .selectFrom('basins')
+      .where('basins.id', '=', id)
+      .innerJoin(
+        'drainageProjects',
+        'drainageProjects.id',
+        'basins.drainageProjectId'
+      )
+      .select([
+        'basins.id',
+        'basins.name',
+        'basins.area',
+        'basins.runoff',
+        'basins.drainageProjectId',
+        'drainageProjects.companyId',
+      ])
+      .limit(1)
+      .executeTakeFirst();
+
+    if (!basin) {
+      return null;
+    }
+
+    return basin;
+  }
+
+  async findByName(name: string, drainageProjectId: string) {
+    const basin = await db
+      .selectFrom('basins')
+      .where('name', '=', name)
+      .where('drainageProjectId', '=', drainageProjectId)
+      .selectAll()
+      .limit(1)
+      .executeTakeFirst();
+
+    return basin ?? null;
+  }
+
+  async findAllByNames(names: string[], drainageProjectId: string) {
     return await db
       .selectFrom('basins')
       .selectAll()

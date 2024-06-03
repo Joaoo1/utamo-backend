@@ -7,6 +7,8 @@ import { DeleteDrainageProjectController } from './useCases/DeleteDrainageProjec
 import { CreateGutterController } from './useCases/CreateGutterController';
 import { UpdateGutterController } from './useCases/UpdateGutterController';
 import { DeleteGutterController } from './useCases/DeleteGutterController';
+import { UpdateBasinController } from './useCases/UpdateBasinController';
+import { DeleteBasinController } from './useCases/DeleteBasinController';
 import { ImportDrainageProjectDataFromXmlController } from './useCases/ImportDrainageProjectDataFromXmlController';
 import { DeleteDrainageController } from './useCases/DeleteDrainageController';
 import { CreateCalculationController } from './useCases/CreateCalculationController';
@@ -25,11 +27,13 @@ const deleteDrainageController = new DeleteDrainageController();
 const createGutterController = new CreateGutterController();
 const updateGutterController = new UpdateGutterController();
 const deleteGutterController = new DeleteGutterController();
-const importDrainageProjectDataFromXmlController =
-  new ImportDrainageProjectDataFromXmlController();
+const updateBasinController = new UpdateBasinController();
+const deleteBasinController = new DeleteBasinController();
 const createCalculationController = new CreateCalculationController();
 const updateCalculationController = new UpdateCalculationUseController();
 const deleteCalculationController = new DeleteCalculationController();
+const importDrainageProjectDataFromXmlController =
+  new ImportDrainageProjectDataFromXmlController();
 
 drainageProjectRouter.get('/', listDrainageProjectController.handle);
 drainageProjectRouter.post('/', createDrainageProjectController.handle);
@@ -53,6 +57,12 @@ drainageProjectRouter.put(
 drainageProjectRouter.delete(
   '/:id/drainages/:drainageId',
   deleteDrainageController.handle
+);
+
+drainageProjectRouter.put('/:id/basins/:basinId', updateBasinController.handle);
+drainageProjectRouter.delete(
+  '/:id/basins/:basinId',
+  deleteBasinController.handle
 );
 
 drainageProjectRouter.post(

@@ -47,7 +47,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     IImportDrainageProjectDataFromXmlDTO,
     'drainages' | 'drainageProjectId'
   >) {
-    const existentDrainages = await this.drainagesRepository.findAllByName(
+    const existentDrainages = await this.drainagesRepository.findAllByNames(
       drainages.map((d) => d.name),
       drainageProjectId
     );
@@ -113,7 +113,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     IImportDrainageProjectDataFromXmlDTO,
     'basins' | 'drainageProjectId'
   >) {
-    const existentBasins = await this.basinsRepository.findAllByName(
+    const existentBasins = await this.basinsRepository.findAllByNames(
       basins.map((d) => d.name),
       drainageProjectId
     );

@@ -162,6 +162,19 @@ export class CalculationsRepository {
       .execute();
   }
 
+  async findAllCalculationsByBasinId(basinId: string) {
+    return db
+      .selectFrom('calculations')
+      .innerJoin(
+        'calculationsBasins',
+        'calculations.id',
+        'calculationsBasins.calculationId'
+      )
+      .where('calculationsBasins.basinId', '=', basinId)
+      .selectAll()
+      .execute();
+  }
+
   async findAllCalculationsByDrainageId(drainageId: string) {
     return db
       .selectFrom('calculations')
