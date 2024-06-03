@@ -93,6 +93,7 @@ export class CreateCalculationUseCase {
       gutterId: gutterId,
       drainageId: drainageId,
       drainageProjectId,
+      basinsIds,
     });
   }
 }

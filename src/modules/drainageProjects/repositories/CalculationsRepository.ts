@@ -1,8 +1,11 @@
-import { Insertable, Updateable } from 'kysely';
+import { Insertable, Updateable, sql } from 'kysely';
 import { jsonBuildObject } from 'kysely/helpers/postgres';
 
 import { db } from '../../../database';
-import { CalculationsTable } from '../../../database/types';
+import {
+  CalculationsBasinsTable,
+  CalculationsTable,
+} from '../../../database/types';
 import { calculate } from '../utils/calculate';
 
 export class CalculationsRepository {
@@ -38,15 +41,53 @@ export class CalculationsRepository {
     return calculation;
   }
 
-  async create(data: Insertable<CalculationsTable>) {
-    await db.insertInto('calculations').values(data).execute();
+  async create(data: Insertable<CalculationsTable> & { basinsIds: string[] }) {
+    const { basinsIds, ...calculationData } = data;
+    const [result] = await db
+      .insertInto('calculations')
+      .values(calculationData)
+      .returning('id')
+      .execute();
+
+    const calculationsBasins: Insertable<CalculationsBasinsTable>[] =
+      basinsIds.map((basinId) => ({
+        calculationId: result.id,
+        basinId,
+        id: sql`gen_random_uuid()`,
+      }));
+
+    await db
+      .insertInto('calculationsBasins')
+      .values(calculationsBasins)
+      .execute();
   }
 
-  async update(id: string, data: Updateable<CalculationsTable>) {
+  async update(
+    id: string,
+    data: Updateable<CalculationsTable> & { basinsIds: string[] }
+  ) {
+    const { basinsIds, ...calculationData } = data;
     await db
       .updateTable('calculations')
-      .set(data)
+      .set(calculationData)
       .where('id', '=', id)
+      .execute();
+
+    await db
+      .deleteFrom('calculationsBasins')
+      .where('calculationId', '=', id)
+      .execute();
+
+    const calculationsBasins: Insertable<CalculationsBasinsTable>[] =
+      basinsIds.map((basinId) => ({
+        calculationId: id,
+        basinId,
+        id: sql`gen_random_uuid()`,
+      }));
+
+    await db
+      .insertInto('calculationsBasins')
+      .values(calculationsBasins)
       .execute();
   }
 

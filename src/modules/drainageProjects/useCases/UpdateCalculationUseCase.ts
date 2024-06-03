@@ -95,6 +95,7 @@ export class UpdateCalculationUseCase {
       endStationDecimal,
       concentrationTime,
       rainIntensity,
+      basinsIds,
     });
   }
 }
