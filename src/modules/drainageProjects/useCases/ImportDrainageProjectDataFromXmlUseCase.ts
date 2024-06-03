@@ -67,7 +67,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         }
 
         const createdDrainage = {
-          id: this.uuid.v4(),
+          id: this.uuid.generate(),
           length: d.length,
           name: d.name,
           drainageProjectId,
@@ -85,7 +85,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
       const newLines = drainage.lines.map((l) => ({
         ...l,
         drainageId: drainage.id,
-        id: this.uuid.v4(),
+        id: this.uuid.generate(),
       }));
 
       await this.linesRepository.createAll(newLines);
@@ -96,7 +96,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
 
       const newSections = drainage.sections.map((section) => ({
         ...section,
-        id: this.uuid.v4(),
+        id: this.uuid.generate(),
         drainageId: drainage.id,
       }));
 
@@ -134,7 +134,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         }
 
         const newBasin = {
-          id: this.uuid.v4(),
+          id: this.uuid.generate(),
           area: b.area,
           name: b.name,
           runoff: b.runoff,
@@ -153,7 +153,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
       const newLines = basin.lines.map((l) => ({
         ...l,
         basinId: basin.id,
-        id: this.uuid.v4(),
+        id: this.uuid.generate(),
       }));
 
       await this.linesRepository.createAll(newLines);

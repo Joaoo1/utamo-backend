@@ -1,3 +1,4 @@
 export interface IUUID {
-  v4: () => string;
+  generate: () => string;
+  validate: (uuid: string) => boolean;
 }

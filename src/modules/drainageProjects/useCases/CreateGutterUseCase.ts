@@ -54,7 +54,7 @@ export class CreateGutterUseCase {
       slope,
       name,
       type: GutterType.Trapezoidal,
-      id: this.uuid.v4(),
+      id: this.uuid.generate(),
     });
   }
 }

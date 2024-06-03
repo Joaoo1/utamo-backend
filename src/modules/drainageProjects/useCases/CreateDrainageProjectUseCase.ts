@@ -31,7 +31,7 @@ export class CreateDrainageProjectUseCase {
       defaultConcentrationTime,
       defaultRainIntensity,
       name,
-      id: this.uuid.v4(),
+      id: this.uuid.generate(),
     });
   }
 }

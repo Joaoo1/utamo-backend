@@ -29,7 +29,7 @@ export class UpdateDrainageUseCase {
 
     const newSections = sections.map((section) => ({
       ...section,
-      id: this.uuid.v4(),
+      id: this.uuid.generate(),
       drainageId: drainage.id,
     }));
 

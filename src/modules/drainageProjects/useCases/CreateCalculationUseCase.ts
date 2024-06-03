@@ -76,7 +76,7 @@ export class CreateCalculationUseCase {
     });
 
     await this.calculationsRepository.create({
-      id: this.uuid.v4(),
+      id: this.uuid.generate(),
       ...calculationResult,
       startStationInt,
       startStationDecimal,
