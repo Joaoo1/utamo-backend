@@ -9,4 +9,5 @@ export interface ICreateCalculationDTO {
   endStationDecimal: number;
   rainIntensity: number;
   concentrationTime: number;
+  userCompanyId: string;
 }

@@ -1,6 +1,7 @@
 import { IUUID } from '../../../libs/UUID/IUUID';
 import { ICreateCalculationDTO } from '../dtos/ICreateCalculationDTO';
 import { CalculationDataError } from '../errors/CalculationDataError';
+import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
 import { BasinsRepository } from '../repositories/BasinsRepository';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
@@ -30,6 +31,7 @@ export class CreateCalculationUseCase {
     endStationDecimal,
     concentrationTime,
     rainIntensity,
+    userCompanyId,
   }: ICreateCalculationDTO) {
     const drainageProject = await this.drainageProjectsRepository.findById(
       drainageProjectId
@@ -37,6 +39,10 @@ export class CreateCalculationUseCase {
 
     if (!drainageProject) {
       throw new DrainageProjectNotExistsError();
+    }
+
+    if (drainageProject.companyId !== userCompanyId) {
+      throw new DrainageProjectDontBelongsToUserCompanyError();
     }
 
     const gutterPromise = this.guttersRepository.findById(gutterId);

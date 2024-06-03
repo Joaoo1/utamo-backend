@@ -29,6 +29,7 @@ class CreateCalculationController {
       endStationDecimal: request.body.endStationDecimal,
       rainIntensity: request.body.rainIntensity,
       concentrationTime: request.body.concentrationTime,
+      userCompanyId: request.user.companyId,
     });
 
     return response.status(200).json({});

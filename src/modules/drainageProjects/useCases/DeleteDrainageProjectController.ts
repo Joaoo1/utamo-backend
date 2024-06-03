@@ -9,7 +9,7 @@ class DeleteDrainageProjectController {
     );
 
     await deleteDrainageProjectUseCase.execute({
-      id: request.params.id ?? '',
+      id: request.params.id,
       userCompanyId: request.user.companyId,
     });
 

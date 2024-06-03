@@ -1,5 +1,5 @@
 import { IDeleteCalculationDTO } from '../dtos/IDeleteCalculationDTO';
-import { CalculationNotExists } from '../errors/CalculationNotExistsError';
+import { CalculationNotExistsError } from '../errors/CalculationNotExistsError';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 
@@ -12,7 +12,7 @@ export class DeleteCalculationUseCase {
     const calculation = await this.calculationsRepository.findById(id);
 
     if (!calculation) {
-      throw new CalculationNotExists();
+      throw new CalculationNotExistsError();
     }
 
     if (calculation.companyId !== userCompanyId) {

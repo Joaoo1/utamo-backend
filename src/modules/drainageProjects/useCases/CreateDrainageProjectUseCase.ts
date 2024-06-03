@@ -10,7 +10,7 @@ export class CreateDrainageProjectUseCase {
   ) {}
 
   async execute({
-    companyId,
+    userCompanyId,
     createdBy,
     defaultConcentrationTime,
     defaultRainIntensity,
@@ -18,7 +18,7 @@ export class CreateDrainageProjectUseCase {
   }: ICreateDrainageProjectDTO) {
     const alreadyExists = await this.drainageProjectRepository.findByName(
       name,
-      companyId
+      userCompanyId
     );
 
     if (alreadyExists) {
@@ -26,7 +26,7 @@ export class CreateDrainageProjectUseCase {
     }
 
     await this.drainageProjectRepository.create({
-      companyId,
+      companyId: userCompanyId,
       createdBy,
       defaultConcentrationTime,
       defaultRainIntensity,

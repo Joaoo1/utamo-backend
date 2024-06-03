@@ -1,6 +1,6 @@
 import { IUpdateCalculationDTO } from '../dtos/IUpdateCalculationDTO';
 import { CalculationDataError } from '../errors/CalculationDataError';
-import { CalculationNotExists } from '../errors/CalculationNotExistsError';
+import { CalculationNotExistsError } from '../errors/CalculationNotExistsError';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
 import { BasinsRepository } from '../repositories/BasinsRepository';
@@ -35,7 +35,7 @@ export class UpdateCalculationUseCase {
     const calculation = await this.calculationsRepository.findById(id);
 
     if (!calculation) {
-      throw new CalculationNotExists();
+      throw new CalculationNotExistsError();
     }
 
     const drainageProject = await this.drainageProjectsRepository.findById(

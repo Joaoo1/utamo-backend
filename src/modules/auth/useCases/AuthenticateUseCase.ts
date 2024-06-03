@@ -32,7 +32,7 @@ export class AuthenticateUserUseCase {
       throw new CompanyNotActiveError();
     }
 
-    const token = await this.jwt.encrypt({ id: user.id });
+    const token = this.jwt.encrypt({ id: user.id });
 
     const { passwordHash, ...userWithoutPassword } = user;
 

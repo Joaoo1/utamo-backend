@@ -17,7 +17,7 @@ class CreateDrainageProjectController {
       defaultConcentrationTime,
       defaultRainIntensity,
       createdBy: request.user.id,
-      companyId: request.user.companyId,
+      userCompanyId: request.user.companyId,
     });
 
     return response.status(200).json({});

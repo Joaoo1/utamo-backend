@@ -3,5 +3,5 @@ export interface ICreateDrainageProjectDTO {
   defaultRainIntensity: number;
   defaultConcentrationTime: number;
   createdBy: string;
-  companyId: string;
+  userCompanyId: string;
 }
