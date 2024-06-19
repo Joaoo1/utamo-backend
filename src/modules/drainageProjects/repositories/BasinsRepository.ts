@@ -1,6 +1,9 @@
 import { Insertable, Updateable } from 'kysely';
-import { db } from '../../../database';
+
+import { Database } from '../../../database';
 import { BasinsTable } from '../../../database/types';
+
+const db = Database.getInstance();
 
 export class BasinsRepository {
   async findById(id: string) {

@@ -1,4 +1,6 @@
-import { db } from '../../../database';
+import { Database } from '../../../database';
+
+const db = Database.getInstance();
 
 const defaultSelectFields = [
   'users.id',

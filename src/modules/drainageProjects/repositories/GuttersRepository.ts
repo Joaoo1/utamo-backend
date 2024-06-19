@@ -1,6 +1,8 @@
 import { Insertable, Updateable } from 'kysely';
-import { db } from '../../../database';
+import { Database } from '../../../database';
 import { GuttersTable } from '../../../database/types';
+
+const db = Database.getInstance();
 
 const defaultFindSelectFields = [
   'gutters.base',

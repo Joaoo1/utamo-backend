@@ -6,9 +6,11 @@ import {
   Updateable,
   sql,
 } from 'kysely';
-import { db } from '../../../database';
+import { Database } from '../../../database';
 import { DrainageProjectsTable } from '../../../database/types';
 import { jsonBuildObject } from 'kysely/helpers/postgres';
+
+const db = Database.getInstance();
 
 function jsonbBuildObject<O extends Record<string, Expression<unknown>>>(
   obj: O

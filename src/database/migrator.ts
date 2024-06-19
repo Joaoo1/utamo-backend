@@ -4,9 +4,11 @@ import * as path from 'path';
 import { promises as fs } from 'fs';
 import { Migrator, FileMigrationProvider } from 'kysely';
 
-import { db } from '.';
+import { Database } from '.';
 
 async function migrateToLatest() {
+  await Database.init();
+  const db = Database.getInstance();
   const migrator = new Migrator({
     db,
     provider: new FileMigrationProvider({

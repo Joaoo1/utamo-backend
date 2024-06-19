@@ -1,6 +1,8 @@
 import { Insertable, Updateable } from 'kysely';
-import { db } from '../../../database';
+import { Database } from '../../../database';
 import { DrainageSectionsTable } from '../../../database/types';
+
+const db = Database.getInstance();
 
 export class DrainageSectionsRepository {
   async createAll(data: Insertable<DrainageSectionsTable>[]) {

@@ -1,6 +1,9 @@
 import { Insertable } from 'kysely';
-import { db } from '../../../database';
+
+import { Database } from '../../../database';
 import { LinesTable } from '../../../database/types';
+
+const db = Database.getInstance();
 
 export class LinesRepository {
   async createAll(data: Insertable<LinesTable>[]) {

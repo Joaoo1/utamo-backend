@@ -1,11 +1,15 @@
-import { app } from './app';
+import { Database } from './database';
 
-const port = process.env.PORT;
+Database.init().then(() => {
+  const app = require('./app').app;
 
-if (!port) {
-  throw new Error('Please add PORT field to .env file');
-}
+  const port = process.env.PORT;
 
-app.listen(port, () => {
-  console.log(`Server listen on ${port}`);
+  if (!port) {
+    throw new Error('Please add PORT field to .env file');
+  }
+
+  app.listen(port, () => {
+    console.log(`Server listen on ${port}`);
+  });
 });

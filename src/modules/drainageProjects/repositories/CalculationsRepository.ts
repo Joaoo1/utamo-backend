@@ -1,12 +1,14 @@
 import { Insertable, Updateable, sql } from 'kysely';
 import { jsonBuildObject } from 'kysely/helpers/postgres';
 
-import { db } from '../../../database';
+import { Database } from '../../../database';
 import {
   CalculationsBasinsTable,
   CalculationsTable,
 } from '../../../database/types';
 import { calculate } from '../utils/calculate';
+
+const db = Database.getInstance();
 
 export class CalculationsRepository {
   async findAllByDrainageProject(drainageProjectId: string) {
