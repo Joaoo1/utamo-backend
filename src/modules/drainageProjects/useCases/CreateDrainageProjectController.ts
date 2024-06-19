@@ -12,7 +12,7 @@ class CreateDrainageProjectController {
       new UUID()
     );
 
-    await createDrainageProjectUseCase.execute({
+    const project = await createDrainageProjectUseCase.execute({
       name,
       defaultConcentrationTime,
       defaultRainIntensity,
@@ -20,7 +20,7 @@ class CreateDrainageProjectController {
       userCompanyId: request.user.companyId,
     });
 
-    return response.status(200).json({});
+    return response.status(200).json(project);
   }
 }
 

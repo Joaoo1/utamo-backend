@@ -13,7 +13,7 @@ class ListDrainageProjectsController {
       companyId: request.user.companyId,
     });
 
-    return response.status(200).json({ drainageProjects });
+    return response.status(200).json(drainageProjects);
   }
 }
 

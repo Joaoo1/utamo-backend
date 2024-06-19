@@ -7,7 +7,7 @@ import { DrainagesRepository } from '../repositories/DrainagesRepository';
 import { BasinsRepository } from '../repositories/BasinsRepository';
 import { CalculationsRepository } from '../repositories/CalculationsRepository';
 
-class CreateCalculationController {
+class CalculateController {
   async handle(request: Request, response: Response): Promise<Response> {
     const createCalculationUseCase = new CreateCalculationUseCase(
       new CalculationsRepository(),
@@ -18,7 +18,7 @@ class CreateCalculationController {
       new UUID()
     );
 
-    const createdCalculation = await createCalculationUseCase.execute({
+    const calculation = await createCalculationUseCase.execute({
       basinsIds: request.body.basinsIds,
       gutterId: request.body.gutterId,
       drainageId: request.body.drainageId,
@@ -30,11 +30,11 @@ class CreateCalculationController {
       rainIntensity: request.body.rainIntensity,
       concentrationTime: request.body.concentrationTime,
       userCompanyId: request.user.companyId,
-      shouldSave: true,
+      shouldSave: false,
     });
 
-    return response.status(200).json(createdCalculation);
+    return response.status(200).json(calculation);
   }
 }
 
-export { CreateCalculationController };
+export { CalculateController };

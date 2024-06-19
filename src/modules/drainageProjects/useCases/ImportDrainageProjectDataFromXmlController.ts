@@ -6,6 +6,7 @@ import { BasinsRepository } from '../repositories/BasinsRepository';
 import { UUID } from '../../../libs/UUID';
 import { DrainageSectionsRepository } from '../repositories/DrainageSectionsRepository';
 import { LinesRepository } from '../repositories/LinesRepository';
+import { GuttersRepository } from '../repositories/GuttersRepository';
 
 class ImportDrainageProjectDataFromXmlController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -16,6 +17,7 @@ class ImportDrainageProjectDataFromXmlController {
         new BasinsRepository(),
         new DrainageSectionsRepository(),
         new LinesRepository(),
+        new GuttersRepository(),
         new UUID()
       );
 

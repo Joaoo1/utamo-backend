@@ -12,7 +12,7 @@ class UpdateGutterController {
       new CalculationsRepository()
     );
 
-    await updateGutterUseCase.execute({
+    const gutter = await updateGutterUseCase.execute({
       id: request.params.gutterId,
       base,
       maxHeight,
@@ -23,7 +23,7 @@ class UpdateGutterController {
       userCompanyId: request.user.companyId,
     });
 
-    return response.status(200).json({});
+    return response.status(200).json(gutter);
   }
 }
 

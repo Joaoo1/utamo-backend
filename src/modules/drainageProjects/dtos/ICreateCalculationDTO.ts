@@ -10,4 +10,5 @@ export interface ICreateCalculationDTO {
   rainIntensity: number;
   concentrationTime: number;
   userCompanyId: string;
+  shouldSave: boolean;
 }

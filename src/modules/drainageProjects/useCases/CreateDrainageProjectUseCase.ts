@@ -25,7 +25,7 @@ export class CreateDrainageProjectUseCase {
       throw new DuplicatedDrainageProjectNameError();
     }
 
-    await this.drainageProjectRepository.create({
+    const drainageProject = await this.drainageProjectRepository.create({
       companyId: userCompanyId,
       createdBy,
       defaultConcentrationTime,
@@ -33,5 +33,7 @@ export class CreateDrainageProjectUseCase {
       name,
       id: this.uuid.generate(),
     });
+
+    return drainageProject[0];
   }
 }

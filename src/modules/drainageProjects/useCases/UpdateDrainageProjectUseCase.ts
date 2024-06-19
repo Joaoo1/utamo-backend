@@ -38,7 +38,7 @@ export class UpdateDrainageProjectUseCase {
       }
     }
 
-    await this.drainageProjectRepository.update(id, {
+    return this.drainageProjectRepository.update(id, {
       defaultConcentrationTime,
       defaultRainIntensity,
       name,

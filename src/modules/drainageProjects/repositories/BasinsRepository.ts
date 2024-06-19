@@ -65,7 +65,14 @@ export class BasinsRepository {
   }
 
   async update(id: string, data: Updateable<BasinsTable>) {
-    await db.updateTable('basins').set(data).where('id', '=', id).execute();
+    const [result] = await db
+      .updateTable('basins')
+      .set(data)
+      .where('id', '=', id)
+      .returningAll()
+      .execute();
+
+    return result;
   }
 
   async updateByDrainageProject(

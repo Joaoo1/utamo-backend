@@ -45,7 +45,7 @@ export class CreateGutterUseCase {
       throw new DrainageProjectDontBelongsToUserCompanyError();
     }
 
-    await this.guttersRepository.create({
+    return this.guttersRepository.create({
       base,
       drainageProjectId,
       maxHeight,

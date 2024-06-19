@@ -33,7 +33,7 @@ export class UpdateBasinUseCase {
       }
     }
 
-    await this.basinsRepository.update(id, {
+    const updatedBasin = await this.basinsRepository.update(id, {
       area,
       name,
       runoff,
@@ -48,5 +48,7 @@ export class UpdateBasinUseCase {
         calculations.map((c) => this.calculationsRepository.recalculate(c.id))
       );
     }
+
+    return updatedBasin;
   }
 }

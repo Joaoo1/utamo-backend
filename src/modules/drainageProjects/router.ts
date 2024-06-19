@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { ListDrainageProjectsController } from './useCases/ListDrainageProjectsController';
+import { ListCalculationsController } from './useCases/ListCalculationsController';
 import { CreateDrainageProjectController } from './useCases/CreateDrainageProjectController';
 import { UpdateDrainageProjectController } from './useCases/UpdateDrainageProjectController';
 import { DeleteDrainageProjectController } from './useCases/DeleteDrainageProjectController';
@@ -17,10 +17,15 @@ import { UpdateCalculationUseController } from './useCases/UpdateCalculationUseC
 import { UpdateDrainageController } from './useCases/UpdateDrainageController';
 import { UpdateBasinRunoffController } from './useCases/UpdateBasinsRunoffController';
 import { EnsureCorrectUuid } from '../../middlewares/EnsureCorrectUuid';
+import { GetDrainageProjectFullDataController } from './useCases/GetDrainageProjectFullDataController';
+import { ListDrainageProjectsController } from './useCases/ListDrainageProjectsController';
+import { CalculateController } from './useCases/CalculateController';
 
 const drainageProjectRouter = Router();
 
 const listDrainageProjectController = new ListDrainageProjectsController();
+const getDrainageProjectFullDataController =
+  new GetDrainageProjectFullDataController();
 const createDrainageProjectController = new CreateDrainageProjectController();
 const updateDrainageProjectController = new UpdateDrainageProjectController();
 const deleteDrainageProjectController = new DeleteDrainageProjectController();
@@ -32,6 +37,8 @@ const deleteGutterController = new DeleteGutterController();
 const updateBasinController = new UpdateBasinController();
 const deleteBasinController = new DeleteBasinController();
 const updateBasinsRunoffController = new UpdateBasinRunoffController();
+const calculateController = new CalculateController();
+const listCalculationController = new ListCalculationsController();
 const createCalculationController = new CreateCalculationController();
 const updateCalculationController = new UpdateCalculationUseController();
 const deleteCalculationController = new DeleteCalculationController();
@@ -39,9 +46,22 @@ const importDrainageProjectDataFromXmlController =
   new ImportDrainageProjectDataFromXmlController();
 
 drainageProjectRouter.get('/', listDrainageProjectController.handle);
+drainageProjectRouter.get(
+  '/:id/full-data',
+  EnsureCorrectUuid,
+  getDrainageProjectFullDataController.handle
+);
 drainageProjectRouter.post('/', createDrainageProjectController.handle);
-drainageProjectRouter.put('/:id', updateDrainageProjectController.handle);
-drainageProjectRouter.delete('/:id', deleteDrainageProjectController.handle);
+drainageProjectRouter.put(
+  '/:id',
+  EnsureCorrectUuid,
+  updateDrainageProjectController.handle
+);
+drainageProjectRouter.delete(
+  '/:id',
+  EnsureCorrectUuid,
+  deleteDrainageProjectController.handle
+);
 
 drainageProjectRouter.post('/:id/gutters', createGutterController.handle);
 drainageProjectRouter.put(
@@ -89,17 +109,26 @@ drainageProjectRouter.post(
 );
 
 drainageProjectRouter.post(
-  '/:id/calculation',
+  '/:id/calculate',
+  EnsureCorrectUuid,
+  calculateController.handle
+);
+drainageProjectRouter.get(
+  '/:id/calculations',
+  listCalculationController.handle
+);
+drainageProjectRouter.post(
+  '/:id/calculations',
   EnsureCorrectUuid,
   createCalculationController.handle
 );
 drainageProjectRouter.put(
-  '/:id/calculation/:calculationId',
+  '/:id/calculations/:calculationId',
   EnsureCorrectUuid,
   updateCalculationController.handle
 );
 drainageProjectRouter.delete(
-  '/:id/calculation/:calculationId',
+  '/:id/calculations/:calculationId',
   EnsureCorrectUuid,
   deleteCalculationController.handle
 );

@@ -10,7 +10,7 @@ class UpdateDrainageProjectController {
       new DrainageProjectsRepository()
     );
 
-    await updateDrainageProjectUseCase.execute({
+    const updatedDrainageProject = await updateDrainageProjectUseCase.execute({
       name,
       defaultConcentrationTime,
       defaultRainIntensity,
@@ -18,7 +18,7 @@ class UpdateDrainageProjectController {
       id: request.params.id,
     });
 
-    return response.status(200).json({});
+    return response.status(200).json(updatedDrainageProject);
   }
 }
 

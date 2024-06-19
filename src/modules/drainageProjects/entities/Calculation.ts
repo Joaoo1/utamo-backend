@@ -1,4 +1,6 @@
-interface Calculation {
+import { BaseEntity } from '../../../common/BaseEntity';
+
+export interface Calculation extends BaseEntity {
   qMin: number;
   qMax: number;
   gap: number;

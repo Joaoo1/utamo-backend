@@ -42,7 +42,7 @@ export class UpdateGutterUseCase {
       }
     }
 
-    await this.guttersRepository.update(id, {
+    const updatedGutter = await this.guttersRepository.update(id, {
       base,
       maxHeight,
       maxSpeed,
@@ -61,5 +61,7 @@ export class UpdateGutterUseCase {
         calculations.map((c) => this.calculationsRepository.recalculate(c.id))
       );
     }
+
+    return updatedGutter;
   }
 }

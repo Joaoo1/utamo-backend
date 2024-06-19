@@ -78,11 +78,24 @@ export class GuttersRepository {
   }
 
   async create(data: Insertable<GuttersTable>) {
-    await db.insertInto('gutters').values(data).execute();
+    const [result] = await db
+      .insertInto('gutters')
+      .values(data)
+      .returningAll()
+      .execute();
+
+    return result;
   }
 
   async update(id: string, data: Updateable<GuttersTable>) {
-    await db.updateTable('gutters').set(data).where('id', '=', id).execute();
+    const [result] = await db
+      .updateTable('gutters')
+      .set(data)
+      .where('id', '=', id)
+      .returningAll()
+      .execute();
+
+    return result;
   }
 
   async delete(id: string) {

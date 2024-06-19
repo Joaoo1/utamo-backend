@@ -10,10 +10,71 @@ import { calculate } from '../utils/calculate';
 
 export class CalculationsRepository {
   async findAllByDrainageProject(drainageProjectId: string) {
-    return await db
+    return db
       .selectFrom('calculations')
       .where('drainageProjectId', '=', drainageProjectId)
       .selectAll()
+      .execute();
+  }
+
+  async findAllByDrainageProjectWithFullData(drainageProjectId: string) {
+    return db
+      .selectFrom('calculations')
+      .where('calculations.drainageProjectId', '=', drainageProjectId)
+      .leftJoin(
+        'calculationsBasins',
+        'calculationsBasins.calculationId',
+        'calculations.id'
+      )
+      .leftJoin('basins', 'basins.id', 'calculationsBasins.basinId')
+      .select((eb) => [
+        'calculations.id',
+        'calculations.createdAt',
+        'calculations.updatedAt',
+        'calculations.qMin',
+        'calculations.qMax',
+        'calculations.gap',
+        'calculations.amMax',
+        'calculations.amMin',
+        'calculations.pmMax',
+        'calculations.pmMin',
+        'calculations.rhMax',
+        'calculations.rhMin',
+        'calculations.hnMax',
+        'calculations.hnMin',
+        'calculations.velocity',
+        'calculations.projectFlow',
+        'calculations.deviceLength',
+        'calculations.minSlope',
+        'calculations.maxSlope',
+        'calculations.basinsTotalArea',
+        'calculations.runOff',
+        'calculations.startStationInt',
+        'calculations.startStationDecimal',
+        'calculations.endStationInt',
+        'calculations.endStationDecimal',
+        'calculations.rainIntensity',
+        'calculations.concentrationTime',
+        'calculations.gutterId',
+        'calculations.drainageProjectId',
+        'calculations.drainageId',
+        eb.fn
+          .coalesce(
+            eb.fn
+              .jsonAgg(
+                jsonBuildObject({
+                  id: eb.ref('basins.id'),
+                  name: eb.ref('basins.name'),
+                  area: eb.ref('basins.area'),
+                  runOff: eb.ref('basins.runoff'),
+                })
+              )
+              .filterWhere('basins.id', 'is not', null),
+            sql`'[]'`
+          )
+          .as('basins'),
+      ])
+      .groupBy('calculations.id')
       .execute();
   }
 
@@ -46,7 +107,7 @@ export class CalculationsRepository {
     const [result] = await db
       .insertInto('calculations')
       .values(calculationData)
-      .returning('id')
+      .returningAll()
       .execute();
 
     const calculationsBasins: Insertable<CalculationsBasinsTable>[] =
@@ -60,6 +121,8 @@ export class CalculationsRepository {
       .insertInto('calculationsBasins')
       .values(calculationsBasins)
       .execute();
+
+    return result;
   }
 
   async update(
@@ -98,6 +161,13 @@ export class CalculationsRepository {
       .execute();
 
     return result[0]?.numDeletedRows > 0;
+  }
+
+  async deleteByDrainageProjectId(drainageProjectId: string) {
+    await db
+      .deleteFrom('calculations')
+      .where('drainageProjectId', '=', drainageProjectId)
+      .execute();
   }
 
   async recalculate(id: string) {

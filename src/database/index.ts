@@ -3,6 +3,13 @@ import { Kysely, PostgresDialect } from 'kysely';
 
 import { Database } from './types';
 
+function convertSqlNumericFieldsToNumber() {
+  const types = require('pg').types;
+  types.setTypeParser(types.builtins.NUMERIC, (val: any) => parseFloat(val));
+}
+
+convertSqlNumericFieldsToNumber();
+
 const dialect = new PostgresDialect({
   pool: new Pool({
     database: process.env.DB_NAME,

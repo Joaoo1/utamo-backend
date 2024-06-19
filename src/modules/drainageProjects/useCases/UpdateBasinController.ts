@@ -12,7 +12,7 @@ class UpdateBasinController {
       new CalculationsRepository()
     );
 
-    await updateBasinUseCase.execute({
+    const updatedBasin = await updateBasinUseCase.execute({
       area,
       runoff,
       name,
@@ -20,7 +20,7 @@ class UpdateBasinController {
       userCompanyId: request.user.companyId,
     });
 
-    return response.status(200).json({});
+    return response.status(200).json(updatedBasin);
   }
 }
 

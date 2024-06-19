@@ -35,7 +35,7 @@ export const calculateQ = (
     if (q >= projectFlow) {
       if (minOrMax === 'max') {
         return {
-          velocity: q / am,
+          velocity: q / am || 0,
           qMax: q,
           amMax: am,
           pmMax: pm,

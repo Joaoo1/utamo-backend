@@ -14,7 +14,7 @@ class CreateGutterController {
       new UUID()
     );
 
-    await createDrainageProjectUseCase.execute({
+    const createdGutter = await createDrainageProjectUseCase.execute({
       base,
       maxHeight,
       maxSpeed,
@@ -25,7 +25,7 @@ class CreateGutterController {
       userCompanyId: request.user.companyId,
     });
 
-    return response.status(200).json({});
+    return response.status(200).json(createdGutter);
   }
 }
 

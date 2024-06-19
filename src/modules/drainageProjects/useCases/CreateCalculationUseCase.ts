@@ -1,5 +1,7 @@
 import { IUUID } from '../../../libs/UUID/IUUID';
 import { ICreateCalculationDTO } from '../dtos/ICreateCalculationDTO';
+import { BasinsWithoutAreaError } from '../errors/BasinsWithoutAreaError';
+import { BasinsWithoutRunoffError } from '../errors/BasinsWithoutRunoffError';
 import { CalculationDataError } from '../errors/CalculationDataError';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
@@ -32,6 +34,7 @@ export class CreateCalculationUseCase {
     concentrationTime,
     rainIntensity,
     userCompanyId,
+    shouldSave,
   }: ICreateCalculationDTO) {
     const drainageProject = await this.drainageProjectsRepository.findById(
       drainageProjectId
@@ -63,6 +66,16 @@ export class CreateCalculationUseCase {
       throw new CalculationDataError();
     }
 
+    const hasAnyBasinsWithoutArea = basins.some((b) => !b.area);
+    if (hasAnyBasinsWithoutArea) {
+      throw new BasinsWithoutAreaError();
+    }
+
+    const hasAnyBasinsWithoutRunOff = basins.some((b) => !b.runoff);
+    if (hasAnyBasinsWithoutRunOff) {
+      throw new BasinsWithoutRunoffError();
+    }
+
     const calculationResult = calculate({
       concentrationTime,
       rainIntensity,
@@ -81,8 +94,7 @@ export class CreateCalculationUseCase {
       },
     });
 
-    await this.calculationsRepository.create({
-      id: this.uuid.generate(),
+    const calculation = {
       ...calculationResult,
       startStationInt,
       startStationDecimal,
@@ -94,6 +106,15 @@ export class CreateCalculationUseCase {
       drainageId: drainageId,
       drainageProjectId,
       basinsIds,
-    });
+    };
+
+    if (shouldSave) {
+      return this.calculationsRepository.create({
+        id: this.uuid.generate(),
+        ...calculation,
+      });
+    }
+
+    return calculation;
   }
 }

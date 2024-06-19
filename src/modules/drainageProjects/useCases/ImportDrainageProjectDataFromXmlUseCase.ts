@@ -1,11 +1,16 @@
+import { BaseEntity } from '../../../common/BaseEntity';
+import { GutterType } from '../../../database/types';
 import { IUUID } from '../../../libs/UUID/IUUID';
 import { IImportDrainageProjectDataFromXmlDTO } from '../dtos/IImportDrainageProjectDataFromXmlDTO';
+import { DrainageSection } from '../entities/DrainageSection';
+import { Gutter } from '../entities/Gutter';
 import { DrainageProjectDontBelongsToUserCompanyError } from '../errors/DrainageProjectDontBelongsToUserCompanyError';
 import { DrainageProjectNotExistsError } from '../errors/DrainageProjectNotExistsError';
 import { BasinsRepository } from '../repositories/BasinsRepository';
 import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepository';
 import { DrainageSectionsRepository } from '../repositories/DrainageSectionsRepository';
 import { DrainagesRepository } from '../repositories/DrainagesRepository';
+import { GuttersRepository } from '../repositories/GuttersRepository';
 import { LinesRepository } from '../repositories/LinesRepository';
 
 export class ImportDrainageProjectDataFromXmlUseCase {
@@ -15,6 +20,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     private readonly basinsRepository: BasinsRepository,
     private readonly drainageSectionsRepository: DrainageSectionsRepository,
     private readonly linesRepository: LinesRepository,
+    private readonly guttersRepository: GuttersRepository,
     private readonly uuid: IUUID
   ) {}
 
@@ -38,6 +44,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
 
     await this.handleImportDrainages({ drainages, drainageProjectId });
     await this.handleImportBasins({ basins, drainageProjectId });
+    await this.handleCreateDefaultGutters(drainageProjectId);
   }
 
   private async handleImportDrainages({
@@ -52,32 +59,47 @@ export class ImportDrainageProjectDataFromXmlUseCase {
       drainageProjectId
     );
 
-    const createdDrainages = await Promise.all(
-      drainages.map(async (d) => {
-        const alreadyExists = existentDrainages.find((e) => e.name === d.name);
+    interface CreatedDrainage
+      extends Pick<(typeof drainages)[0], 'lines' | 'sections'> {
+      id: string;
+    }
 
-        if (alreadyExists) {
-          await this.drainagesRepository.update(alreadyExists.id, {
-            name: d.name,
-            length: d.length,
-            updatedAt: new Date(),
-          });
+    const createdDrainages = await drainages.reduce(async (acc, d) => {
+      const data = await acc;
 
-          return { id: alreadyExists.id, lines: d.lines, sections: d.sections };
-        }
+      const alreadyExists = existentDrainages.find((e) => e.name === d.name);
 
-        const createdDrainage = {
-          id: this.uuid.generate(),
-          length: d.length,
+      if (alreadyExists) {
+        await this.drainagesRepository.update(alreadyExists.id, {
           name: d.name,
-          drainageProjectId,
-        };
+          length: d.length,
+          updatedAt: new Date(),
+        });
 
-        await this.drainagesRepository.create(createdDrainage);
+        data.push({
+          id: alreadyExists.id,
+          lines: d.lines,
+          sections: d.sections,
+        });
+        return data;
+      }
 
-        return { id: createdDrainage.id, lines: d.lines, sections: d.sections };
-      })
-    );
+      const createdDrainage = {
+        id: this.uuid.generate(),
+        length: d.length,
+        name: d.name,
+        drainageProjectId,
+      };
+
+      await this.drainagesRepository.create(createdDrainage);
+
+      data.push({
+        id: createdDrainage.id,
+        lines: d.lines,
+        sections: d.sections,
+      });
+      return data;
+    }, Promise.resolve([] as CreatedDrainage[]));
 
     const linesPromise = createdDrainages.map(async (drainage) => {
       await this.linesRepository.deleteAllFromDrainage(drainage.id);
@@ -160,5 +182,72 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     });
 
     await Promise.all(linesPromise);
+  }
+
+  private async handleCreateDefaultGutters(drainageProjectId: string) {
+    const defaultGutters = [
+      {
+        name: 'VPC 01',
+        base: 0.1,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+      {
+        name: 'VPC 02',
+        base: 0.3,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+      {
+        name: 'VPC 03',
+        base: 0.6,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+      {
+        name: 'VPC 04',
+        base: 1,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+      {
+        name: 'VPC 05',
+        base: 1.5,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+      {
+        name: 'VPC 06',
+        base: 2,
+        slope: 1,
+        maxHeight: 0.3,
+        roughness: 0.015,
+        maxSpeed: 4.5,
+        type: GutterType.Trapezoidal,
+      },
+    ];
+
+    for (let i = 0; i < defaultGutters.length; i++) {
+      await this.guttersRepository.create({
+        ...defaultGutters[i],
+        drainageProjectId,
+        id: this.uuid.generate(),
+      });
+    }
   }
 }
