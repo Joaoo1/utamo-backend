@@ -22,6 +22,7 @@ interface BaseTable {
 interface CompanyTable extends BaseTable {
   name: string;
   active: boolean;
+  image?: string;
 }
 
 export interface UsersTable extends BaseTable {

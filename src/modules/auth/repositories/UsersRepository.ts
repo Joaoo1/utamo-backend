@@ -11,6 +11,7 @@ const defaultSelectFields = [
   'companies.id as company.id',
   'companies.name as company.name',
   'companies.active as company.active',
+  'companies.image as company.image',
 ] as const;
 
 export class UsersRepository {
@@ -36,6 +37,7 @@ export class UsersRepository {
         id: user['company.id'],
         name: user['company.name'],
         active: user['company.active'],
+        image: user['company.image'],
       },
     };
   }
