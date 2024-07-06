@@ -6,7 +6,8 @@ import { DrainageProjectsRepository } from '../repositories/DrainageProjectsRepo
 
 class CreateGutterController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { base, maxHeight, maxSpeed, roughness, slope, name } = request.body;
+    const { base, maxHeight, maxSpeed, roughness, slope, name, color } =
+      request.body;
 
     const createDrainageProjectUseCase = new CreateGutterUseCase(
       new GuttersRepository(),
@@ -21,6 +22,7 @@ class CreateGutterController {
       roughness,
       slope,
       name,
+      color,
       drainageProjectId: request.params.id,
       userCompanyId: request.user.companyId,
     });

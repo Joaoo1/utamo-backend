@@ -1,5 +1,6 @@
 export interface ICreateGutterDTO {
   name: string;
+  color: string;
   base: number;
   slope: number;
   maxHeight: number;

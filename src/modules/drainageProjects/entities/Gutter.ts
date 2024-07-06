@@ -9,6 +9,7 @@ enum GutterType {
 
 export interface Gutter extends BaseEntity {
   name: string;
+  color: string;
   base: number;
   slope: number;
   maxHeight: number;

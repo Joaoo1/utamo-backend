@@ -5,7 +5,8 @@ import { CalculationsRepository } from '../repositories/CalculationsRepository';
 
 class UpdateGutterController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { base, maxHeight, maxSpeed, roughness, slope, name } = request.body;
+    const { base, maxHeight, maxSpeed, roughness, slope, name, color } =
+      request.body;
 
     const updateGutterUseCase = new UpdateGutterUseCase(
       new GuttersRepository(),
@@ -20,6 +21,7 @@ class UpdateGutterController {
       roughness,
       slope,
       name,
+      color,
       userCompanyId: request.user.companyId,
     });
 

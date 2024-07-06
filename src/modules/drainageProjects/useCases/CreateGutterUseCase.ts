@@ -22,6 +22,7 @@ export class CreateGutterUseCase {
     roughness,
     slope,
     name,
+    color,
     userCompanyId,
   }: ICreateGutterDTO) {
     const alreadyExists = await this.guttersRepository.findByName(
@@ -53,6 +54,7 @@ export class CreateGutterUseCase {
       roughness,
       slope,
       name,
+      color,
       type: GutterType.Trapezoidal,
       id: this.uuid.generate(),
     });

@@ -1,5 +1,6 @@
 export interface IUpdateGutterDTO {
   name?: string;
+  color?: string;
   base?: number;
   slope?: number;
   maxHeight?: number;

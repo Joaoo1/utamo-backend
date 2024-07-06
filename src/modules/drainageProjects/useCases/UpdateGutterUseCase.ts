@@ -18,6 +18,7 @@ export class UpdateGutterUseCase {
     roughness,
     slope,
     name,
+    color,
     id,
     userCompanyId,
   }: IUpdateGutterDTO) {
@@ -49,6 +50,7 @@ export class UpdateGutterUseCase {
       roughness,
       slope,
       name,
+      color,
     });
 
     const calculations =

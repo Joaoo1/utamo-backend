@@ -49,6 +49,7 @@ export enum GutterType {
 
 export interface GuttersTable extends BaseTable {
   name: string;
+  color: string;
   base: number;
   slope: number;
   maxHeight: number;

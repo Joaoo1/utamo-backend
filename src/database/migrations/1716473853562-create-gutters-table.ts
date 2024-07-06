@@ -10,6 +10,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable('gutters')
     .addColumn('id', 'uuid', (col) => col.primaryKey())
     .addColumn('name', 'varchar(255)', (col) => col.notNull())
+    .addColumn('color', 'varchar(255)', (col) => col.notNull())
     .addColumn('base', 'numeric', (col) => col.notNull())
     .addColumn('slope', 'numeric', (col) => col.notNull())
     .addColumn('maxHeight', 'numeric', (col) => col.notNull())

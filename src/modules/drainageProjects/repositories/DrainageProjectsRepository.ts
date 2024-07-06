@@ -156,6 +156,7 @@ export class DrainageProjectsRepository {
                   maxSpeed: eb.ref('gutters.maxSpeed'),
                   slope: eb.ref('gutters.slope'),
                   name: eb.ref('gutters.name'),
+                  color: eb.ref('gutters.color'),
                   type: eb.ref('gutters.type'),
                   createdAt: eb.ref('gutters.createdAt'),
                 })
