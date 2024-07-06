@@ -193,6 +193,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#004038',
         type: GutterType.Trapezoidal,
       },
       {
@@ -202,6 +203,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#006B4C',
         type: GutterType.Trapezoidal,
       },
       {
@@ -211,6 +213,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#00A56E',
         type: GutterType.Trapezoidal,
       },
       {
@@ -220,6 +223,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#00B37E',
         type: GutterType.Trapezoidal,
       },
       {
@@ -229,6 +233,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#00875F',
         type: GutterType.Trapezoidal,
       },
       {
@@ -238,6 +243,7 @@ export class ImportDrainageProjectDataFromXmlUseCase {
         maxHeight: 0.3,
         roughness: 0.015,
         maxSpeed: 4.5,
+        color: '#73D3C1',
         type: GutterType.Trapezoidal,
       },
     ];
