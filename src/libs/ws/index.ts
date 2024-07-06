@@ -15,14 +15,17 @@ const wss = new WebSocketServer<typeof WebSocketWithId>({
 
 wss.on('connection', (socket, _request, ...args) => {
   const userId = args.at(0) as unknown as string;
-  wss.clients.forEach((client) => {
-    if (client === socket) return;
 
-    if (client.id === userId) {
-      client.send(getFormattedDataToSend(WebSocketEvents.LOGOUT, {}));
-      client.terminate();
-    }
-  });
+  if (process.env.NODE_ENV === 'production') {
+    wss.clients.forEach((client) => {
+      if (client === socket) return;
+
+      if (client.id === userId) {
+        client.send(getFormattedDataToSend(WebSocketEvents.LOGOUT, {}));
+        client.terminate();
+      }
+    });
+  }
 
   socket.id = userId;
 });
