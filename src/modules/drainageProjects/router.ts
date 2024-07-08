@@ -92,7 +92,7 @@ drainageProjectRouter.put(
   updateBasinController.handle
 );
 drainageProjectRouter.patch(
-  '/:id/basins/:basinId/apply-runoff-to-all',
+  '/:id/basins/:basinId/apply-runoff',
   EnsureCorrectUuid,
   updateBasinsRunoffController.handle
 );

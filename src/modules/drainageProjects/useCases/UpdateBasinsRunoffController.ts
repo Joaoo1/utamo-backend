@@ -11,8 +11,9 @@ class UpdateBasinRunoffController {
     );
 
     await updateBasinUseCase.execute({
-      id: request.params.basinId,
+      basinIdToCopy: request.params.basinId,
       userCompanyId: request.user.companyId,
+      basinsToUpdate: request.body.basinsToUpdate,
     });
 
     return response.status(200).json({});

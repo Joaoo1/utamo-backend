@@ -10,8 +10,12 @@ export class UpdateBasinsRunoffUseCase {
     private readonly calculationsRepository: CalculationsRepository
   ) {}
 
-  async execute({ id, userCompanyId }: IUpdateBasinsRunoffDTO) {
-    const basin = await this.basinsRepository.findById(id);
+  async execute({
+    basinIdToCopy,
+    userCompanyId,
+    basinsToUpdate,
+  }: IUpdateBasinsRunoffDTO) {
+    const basin = await this.basinsRepository.findById(basinIdToCopy);
 
     if (!basin) {
       throw new BasinNotExistsError();
@@ -21,12 +25,9 @@ export class UpdateBasinsRunoffUseCase {
       throw new DrainageProjectDontBelongsToUserCompanyError();
     }
 
-    await this.basinsRepository.updateByDrainageProject(
-      basin.drainageProjectId,
-      {
-        runoff: basin.runoff,
-      }
-    );
+    await this.basinsRepository.updateByIds(basinsToUpdate, {
+      runoff: basin.runoff,
+    });
 
     const calculations =
       await this.calculationsRepository.findAllByDrainageProject(

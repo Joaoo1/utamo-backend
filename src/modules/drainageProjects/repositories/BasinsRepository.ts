@@ -78,15 +78,8 @@ export class BasinsRepository {
     return result;
   }
 
-  async updateByDrainageProject(
-    drainageProjectId: string,
-    data: Updateable<BasinsTable>
-  ) {
-    await db
-      .updateTable('basins')
-      .set(data)
-      .where('drainageProjectId', '=', drainageProjectId)
-      .execute();
+  async updateByIds(ids: string[], data: Updateable<BasinsTable>) {
+    await db.updateTable('basins').set(data).where('id', 'in', ids).execute();
   }
 
   async delete(id: string) {
