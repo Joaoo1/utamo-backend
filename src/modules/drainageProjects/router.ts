@@ -20,6 +20,10 @@ import { EnsureCorrectUuid } from '../../middlewares/EnsureCorrectUuid';
 import { GetDrainageProjectFullDataController } from './useCases/GetDrainageProjectFullDataController';
 import { ListDrainageProjectsController } from './useCases/ListDrainageProjectsController';
 import { CalculateController } from './useCases/CalculateController';
+import { ListDefaultGuttersController } from './useCases/ListDefaultGuttersController';
+import { CreateDefaultGutterController } from './useCases/CreateDefaultGutterController';
+import { UpdateDefaultGutterController } from './useCases/UpdateDefaultGutterController';
+import { DeleteDefaultGutterController } from './useCases/DeleteDefaultGutterController';
 
 const drainageProjectRouter = Router();
 
@@ -34,6 +38,10 @@ const deleteDrainageController = new DeleteDrainageController();
 const createGutterController = new CreateGutterController();
 const updateGutterController = new UpdateGutterController();
 const deleteGutterController = new DeleteGutterController();
+const listDefaultGuttersController = new ListDefaultGuttersController();
+const createDefaultGutterController = new CreateDefaultGutterController();
+const updateDefaultGutterController = new UpdateDefaultGutterController();
+const deleteDefaultGutterController = new DeleteDefaultGutterController();
 const updateBasinController = new UpdateBasinController();
 const deleteBasinController = new DeleteBasinController();
 const updateBasinsRunoffController = new UpdateBasinRunoffController();
@@ -73,6 +81,25 @@ drainageProjectRouter.delete(
   '/:id/gutters/:gutterId',
   EnsureCorrectUuid,
   deleteGutterController.handle
+);
+
+drainageProjectRouter.get(
+  '/default-gutters',
+  listDefaultGuttersController.handle
+);
+drainageProjectRouter.post(
+  '/default-gutters',
+  createDefaultGutterController.handle
+);
+drainageProjectRouter.put(
+  '/default-gutters/:defaultGutterId',
+  EnsureCorrectUuid,
+  updateDefaultGutterController.handle
+);
+drainageProjectRouter.delete(
+  '/default-gutters/:defaultGutterId',
+  EnsureCorrectUuid,
+  deleteDefaultGutterController.handle
 );
 
 drainageProjectRouter.put(

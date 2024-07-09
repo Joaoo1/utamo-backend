@@ -198,11 +198,13 @@ export class DrainageProjectsRepository {
   }
 
   async create(data: Insertable<DrainageProjectsTable>) {
-    return db
+    const [result] = await db
       .insertInto('drainageProjects')
       .values(data)
       .returningAll()
       .execute();
+
+    return result;
   }
 
   async update(id: string, data: Updateable<DrainageProjectsTable>) {

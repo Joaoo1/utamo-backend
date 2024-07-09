@@ -11,6 +11,7 @@ export interface Database {
   drainageSections: DrainageSectionsTable;
   calculations: CalculationsTable;
   calculationsBasins: CalculationsBasinsTable;
+  defaultGutters: DefaultGuttersTable;
 }
 
 interface BaseTable {
@@ -57,6 +58,18 @@ export interface GuttersTable extends BaseTable {
   maxSpeed: number;
   type: GutterType;
   drainageProjectId: ColumnType<string, string, never>;
+}
+
+export interface DefaultGuttersTable extends BaseTable {
+  name: string;
+  color: string;
+  base: number;
+  slope: number;
+  maxHeight: number;
+  roughness: number;
+  maxSpeed: number;
+  type: GutterType;
+  companyId: string;
 }
 
 export interface DrainagesTable extends BaseTable {

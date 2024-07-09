@@ -44,7 +44,6 @@ export class ImportDrainageProjectDataFromXmlUseCase {
 
     await this.handleImportDrainages({ drainages, drainageProjectId });
     await this.handleImportBasins({ basins, drainageProjectId });
-    await this.handleCreateDefaultGutters(drainageProjectId);
   }
 
   private async handleImportDrainages({
@@ -182,78 +181,5 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     });
 
     await Promise.all(linesPromise);
-  }
-
-  private async handleCreateDefaultGutters(drainageProjectId: string) {
-    const defaultGutters = [
-      {
-        name: 'VPC 01',
-        base: 0.1,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#004038',
-        type: GutterType.Trapezoidal,
-      },
-      {
-        name: 'VPC 02',
-        base: 0.3,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#006B4C',
-        type: GutterType.Trapezoidal,
-      },
-      {
-        name: 'VPC 03',
-        base: 0.6,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#00A56E',
-        type: GutterType.Trapezoidal,
-      },
-      {
-        name: 'VPC 04',
-        base: 1,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#00B37E',
-        type: GutterType.Trapezoidal,
-      },
-      {
-        name: 'VPC 05',
-        base: 1.5,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#00875F',
-        type: GutterType.Trapezoidal,
-      },
-      {
-        name: 'VPC 06',
-        base: 2,
-        slope: 1,
-        maxHeight: 0.3,
-        roughness: 0.015,
-        maxSpeed: 4.5,
-        color: '#73D3C1',
-        type: GutterType.Trapezoidal,
-      },
-    ];
-
-    for (let i = 0; i < defaultGutters.length; i++) {
-      await this.guttersRepository.create({
-        ...defaultGutters[i],
-        drainageProjectId,
-        id: this.uuid.generate(),
-      });
-    }
   }
 }
