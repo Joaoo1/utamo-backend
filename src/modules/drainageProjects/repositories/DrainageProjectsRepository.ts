@@ -1,14 +1,6 @@
-import {
-  Expression,
-  Insertable,
-  RawBuilder,
-  Simplify,
-  Updateable,
-  sql,
-} from 'kysely';
+import { Expression, Insertable, Updateable, sql } from 'kysely';
 import { Database } from '../../../database';
 import { DrainageProjectsTable } from '../../../database/types';
-import { jsonBuildObject } from 'kysely/helpers/postgres';
 
 const db = Database.getInstance();
 
@@ -35,143 +27,87 @@ export class DrainageProjectsRepository {
   async findByIdFullData(id: string, companyId: string) {
     const drainageProject = await db
       .selectFrom('drainageProjects')
-      .leftJoin(
-        'drainages',
-        'drainages.drainageProjectId',
-        'drainageProjects.id'
-      )
-      .leftJoin('gutters', 'gutters.drainageProjectId', 'drainageProjects.id')
-      .leftJoin('basins', 'basins.drainageProjectId', 'drainageProjects.id')
-      .where('drainageProjects.id', '=', id)
+      .where('id', '=', id)
       .where('companyId', '=', companyId)
-      .select((eb) => [
-        'drainageProjects.id',
-        'drainageProjects.name',
-        'drainageProjects.defaultConcentrationTime',
-        'drainageProjects.defaultRainIntensity',
-        'drainageProjects.createdAt',
-        eb.fn
-          .coalesce(
-            eb.fn
-              .jsonAgg(
-                jsonbBuildObject({
-                  id: eb.ref('basins.id'),
-                  name: eb.ref('basins.name'),
-                  area: eb.ref('basins.area'),
-                  runoff: eb.ref('basins.runoff'),
-                  createdAt: eb.ref('basins.createdAt'),
-                  lines: eb.fn.coalesce(
-                    db
-                      .selectFrom('lines')
-                      .select((eb1) => [
-                        eb1.fn
-                          .jsonAgg(
-                            jsonBuildObject({
-                              id: eb1.ref('lines.id'),
-                              x1: eb1.ref('lines.x1'),
-                              x2: eb1.ref('lines.x2'),
-                              y1: eb1.ref('lines.y1'),
-                              y2: eb1.ref('lines.y2'),
-                              length: eb1.ref('lines.length'),
-                              drainageId: eb1.ref('lines.drainageId'),
-                            })
-                          )
-                          .as('lines'),
-                      ])
-                      .groupBy('lines.drainageId')
-                      .where('lines.basinId', '=', eb.ref('basins.id')),
-                    sql`'[]'`
-                  ),
-                })
-              )
-              .filterWhere('basins.id', 'is not', null)
-              .distinct(),
-            sql`'[]'`
-          )
-          .as('basins'),
-        eb.fn
-          .coalesce(
-            eb.fn
-              .jsonAgg(
-                jsonbBuildObject({
-                  id: eb.ref('drainages.id'),
-                  name: eb.ref('drainages.name'),
-                  length: eb.ref('drainages.length'),
-                  sections: db
-                    .selectFrom('drainageSections')
-                    .select((eb1) => [
-                      eb1.fn
-                        .jsonAgg(
-                          jsonBuildObject({
-                            id: eb1.ref('drainageSections.id'),
-                            startsAt: eb1.ref('drainageSections.startsAt'),
-                            endsAt: eb1.ref('drainageSections.endsAt'),
-                            slope: eb1.ref('drainageSections.slope'),
-                          })
-                        )
-                        .as('drainages'),
-                    ])
-                    .groupBy('drainageSections.drainageId')
-                    .where(
-                      'drainageSections.drainageId',
-                      '=',
-                      eb.ref('drainages.id')
-                    ),
-                  lines: db
-                    .selectFrom('lines')
-                    .select((eb1) => [
-                      eb1.fn
-                        .jsonAgg(
-                          jsonBuildObject({
-                            id: eb1.ref('lines.id'),
-                            x1: eb1.ref('lines.x1'),
-                            x2: eb1.ref('lines.x2'),
-                            y1: eb1.ref('lines.y1'),
-                            y2: eb1.ref('lines.y2'),
-                            length: eb1.ref('lines.length'),
-                            drainageId: eb1.ref('lines.drainageId'),
-                          })
-                        )
-                        .as('lines'),
-                    ])
-                    .groupBy('lines.drainageId')
-                    .where('lines.drainageId', '=', eb.ref('drainages.id')),
-                  createdAt: eb.ref('drainages.createdAt'),
-                })
-              )
-              .filterWhere('drainages.id', 'is not', null)
-              .distinct(),
-            sql`'[]'`
-          )
-          .as('drainages'),
-        eb.fn
-          .coalesce(
-            eb.fn
-              .jsonAgg(
-                jsonbBuildObject({
-                  id: eb.ref('gutters.id'),
-                  base: eb.ref('gutters.base'),
-                  roughness: eb.ref('gutters.roughness'),
-                  maxHeight: eb.ref('gutters.maxHeight'),
-                  maxSpeed: eb.ref('gutters.maxSpeed'),
-                  slope: eb.ref('gutters.slope'),
-                  name: eb.ref('gutters.name'),
-                  color: eb.ref('gutters.color'),
-                  type: eb.ref('gutters.type'),
-                  createdAt: eb.ref('gutters.createdAt'),
-                })
-              )
-              .filterWhere('gutters.id', 'is not', null)
-              .distinct(),
-            sql`'[]'`
-          )
-          .as('gutters'),
+      .select([
+        'id',
+        'name',
+        'defaultConcentrationTime',
+        'defaultRainIntensity',
+        'createdAt',
       ])
-      .groupBy(['drainageProjects.id'])
-      .limit(1)
       .executeTakeFirst();
 
-    return drainageProject ?? null;
+    const basins = await db
+      .selectFrom('basins')
+      .where('drainageProjectId', '=', id)
+      .select(['id', 'name', 'area', 'runoff', 'createdAt'])
+      .execute();
+
+    const basinIds = basins.map((basin) => basin.id);
+
+    const basinLines = await db
+      .selectFrom('lines')
+      .where('basinId', 'in', basinIds)
+      .select(['id', 'x1', 'x2', 'y1', 'y2', 'length', 'drainageId', 'basinId'])
+      .execute();
+
+    const drainages = await db
+      .selectFrom('drainages')
+      .where('drainageProjectId', '=', id)
+      .select(['id', 'name', 'length', 'createdAt'])
+      .execute();
+
+    const drainageIds = drainages.map((drainage) => drainage.id);
+
+    const drainageSections = await db
+      .selectFrom('drainageSections')
+      .where('drainageId', 'in', drainageIds)
+      .select(['id', 'startsAt', 'endsAt', 'slope', 'drainageId'])
+      .execute();
+
+    const drainageLines = await db
+      .selectFrom('lines')
+      .where('drainageId', 'in', drainageIds)
+      .select(['id', 'x1', 'x2', 'y1', 'y2', 'length', 'drainageId'])
+      .execute();
+
+    const gutters = await db
+      .selectFrom('gutters')
+      .where('drainageProjectId', '=', id)
+      .select([
+        'id',
+        'base',
+        'roughness',
+        'maxHeight',
+        'maxSpeed',
+        'slope',
+        'name',
+        'color',
+        'type',
+        'createdAt',
+      ])
+      .execute();
+
+    const basinsWithLines = basins.map((basin) => ({
+      ...basin,
+      lines: basinLines.filter((line) => line.basinId === basin.id),
+    }));
+
+    const drainagesWithDetails = drainages.map((drainage) => ({
+      ...drainage,
+      sections: drainageSections.filter(
+        (section) => section.drainageId === drainage.id
+      ),
+      lines: drainageLines.filter((line) => line.drainageId === drainage.id),
+    }));
+
+    return {
+      ...drainageProject,
+      basins: basinsWithLines,
+      drainages: drainagesWithDetails,
+      gutters: gutters,
+    };
   }
 
   async findByName(name: string, companyId: string, idToIgnore?: string) {
