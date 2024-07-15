@@ -20,13 +20,14 @@ export class ImportDrainageProjectDataFromXmlUseCase {
     private readonly basinsRepository: BasinsRepository,
     private readonly drainageSectionsRepository: DrainageSectionsRepository,
     private readonly linesRepository: LinesRepository,
-    private readonly guttersRepository: GuttersRepository,
     private readonly uuid: IUUID
   ) {}
 
   async execute({
     drainages,
     basins,
+    baseX,
+    baseY,
     userCompanyId,
     drainageProjectId,
   }: IImportDrainageProjectDataFromXmlDTO) {
@@ -42,6 +43,10 @@ export class ImportDrainageProjectDataFromXmlUseCase {
       throw new DrainageProjectDontBelongsToUserCompanyError();
     }
 
+    await this.drainageProjectRepository.update(drainageProjectId, {
+      baseX: String(baseX),
+      baseY: String(baseY),
+    });
     await this.handleImportDrainages({ drainages, drainageProjectId });
     await this.handleImportBasins({ basins, drainageProjectId });
   }

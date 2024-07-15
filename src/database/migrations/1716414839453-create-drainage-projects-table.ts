@@ -5,6 +5,8 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable('drainageProjects')
     .addColumn('id', 'uuid', (col) => col.primaryKey())
     .addColumn('name', 'varchar(255)', (col) => col.notNull())
+    .addColumn('baseX', 'varchar(255)', (col) => col.notNull().defaultTo(''))
+    .addColumn('baseY', 'varchar(255)', (col) => col.notNull().defaultTo(''))
     .addColumn('defaultRainIntensity', 'decimal', (col) => col.notNull())
     .addColumn('defaultConcentrationTime', 'decimal', (col) => col.notNull())
     .addColumn('companyId', 'uuid', (col) =>

@@ -37,6 +37,8 @@ export interface DrainageProjectsTable extends BaseTable {
   name: string;
   defaultRainIntensity: number;
   defaultConcentrationTime: number;
+  baseX: ColumnType<string, string | undefined, never>;
+  baseY: ColumnType<string, string | undefined, never>;
   createdBy: ColumnType<string, string, never>;
   companyId: ColumnType<string, string, never>;
 }

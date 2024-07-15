@@ -17,6 +17,8 @@ export interface IImportDrainageProjectDataFromXmlDTO {
     runoff: number;
     lines: ImportLine[];
   }[];
+  baseX: number;
+  baseY: number;
   userCompanyId: string;
   drainageProjectId: string;
 }
