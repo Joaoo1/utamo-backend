@@ -11,7 +11,7 @@ const app = Express();
 
 app.use(helmet());
 app.use(cors());
-app.use(Express.json());
+app.use(Express.json({ limit: '500kb' }));
 app.use(router);
 
 app.use(ErrorHandler);
