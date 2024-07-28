@@ -96,6 +96,7 @@ export class UpdateCalculationUseCase {
       concentrationTime,
       rainIntensity,
       basinsIds,
+      gutterId,
     });
   }
 }
